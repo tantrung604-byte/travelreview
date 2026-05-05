@@ -130,43 +130,14 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
           onPressed: () {
             showModalBottomSheet(
               context: context,
-              builder: (context) => Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Thông tin liên hệ', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 16),
-                    const ListTile(
-                      leading: Icon(Icons.person_outline),
-                      title: Text('Họ và tên'),
-                      subtitle: Text('Admin TravelReview'),
-                    ),
-                    ListTile(
-                      leading: const Icon(Icons.phone_outlined),
-                      title: const Text('Số điện thoại'),
-                      subtitle: const Text('090 123 4567'),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.call, color: Colors.green),
-                        onPressed: () async {
-                          final url = Uri.parse('tel:0901234567');
-                          if (await canLaunchUrl(url)) {
-                            await launchUrl(url);
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      child: FilledButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Đóng'),
-                      ),
-                    ),
-                  ],
-                ),
+              isScrollControlled: true,
+              backgroundColor: Colors.white,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              builder: (context) => _ContactFormModal(
+                tourTitle: title,
+                onSend: (name, phone) => _sendContactEmail(title),
               ),
             );
           },
@@ -479,4 +450,152 @@ class _ReviewData {
   final int rating;
   final String content;
   final String date;
+}
+
+class _ContactFormModal extends StatefulWidget {
+  final String tourTitle;
+  final Function(String name, String phone) onSend;
+
+  const _ContactFormModal({required this.tourTitle, required this.onSend});
+
+  @override
+  State<_ContactFormModal> createState() => _ContactFormModalState();
+}
+
+class _ContactFormModalState extends State<_ContactFormModal> {
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  bool _isRobotChecked = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: EdgeInsets.only(
+        left: 20,
+        right: 20,
+        top: 20,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  'Để lại số điện thoại để nhận cuộc gọi tư vấn miễn phí!',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue.shade900,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.close_rounded),
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.grey.shade200,
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(32, 32),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          const Text('Họ tên *', style: TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _nameController,
+            decoration: InputDecoration(
+              hintText: 'Họ tên',
+              fillColor: Colors.blue.shade50.withOpacity(0.3),
+              filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            ),
+          ),
+          const SizedBox(height: 16),
+          const Text('Số điện thoại *', style: TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _phoneController,
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+              hintText: 'Số điện thoại',
+              fillColor: Colors.blue.shade50.withOpacity(0.3),
+              filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            ),
+          ),
+          const SizedBox(height: 16),
+          // Giả lập reCAPTCHA
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade50,
+              border: Border.all(color: Colors.grey.shade300),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Row(
+              children: [
+                Checkbox(
+                  value: _isRobotChecked,
+                  onChanged: (v) => setState(() => _isRobotChecked = v ?? false),
+                ),
+                const Expanded(child: Text("I'm not a robot")),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.refresh, color: Colors.blue.shade700, size: 20),
+                    const Text('reCAPTCHA', style: TextStyle(fontSize: 8, color: Colors.grey)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: FilledButton(
+              onPressed: _isRobotChecked
+                  ? () => widget.onSend(_nameController.text, _phoneController.text)
+                  : null,
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.blue.shade700,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              child: const Text('Gửi', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
