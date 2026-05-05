@@ -95,6 +95,46 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
     );
   }
 
+  Future<void> _sendContactEmail(String tourTitle, String name, String phone) async {
+    final customerName = name.trim();
+    final customerPhone = phone.trim();
+
+    if (customerName.isEmpty || customerPhone.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Vui lòng nhập họ tên và số điện thoại')),
+      );
+      return;
+    }
+
+    final subject = Uri.encodeComponent('Yeu cau tu van tour: $tourTitle');
+    final body = Uri.encodeComponent(
+      'Xin chao Admin TravelReview,\n\n'
+      'Khach hang vua gui thong tin lien he:\n'
+      '- Ho ten: $customerName\n'
+      '- So dien thoai: $customerPhone\n'
+      '- Tour quan tam: $tourTitle\n\n'
+      'Vui long lien he lai som.\n',
+    );
+
+    final emailUri = Uri.parse(
+      'mailto:admin@travelreview.app?subject=$subject&body=$body',
+    );
+
+    final didLaunch = await launchUrl(
+      emailUri,
+      mode: LaunchMode.externalApplication,
+    );
+
+    if (!mounted) return;
+    Navigator.of(context).pop();
+
+    if (!didLaunch) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Khong mo duoc ung dung email tren thiet bi nay')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -137,7 +177,7 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
               ),
               builder: (context) => _ContactFormModal(
                 tourTitle: title,
-                onSend: (name, phone) => _sendContactEmail(title),
+                onSend: (name, phone) => _sendContactEmail(title, name, phone),
               ),
             );
           },
