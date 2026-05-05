@@ -1,0 +1,37 @@
+{
+    "name": "TravelReview - Review du lịch chân thực",
+    "short_name": "TravelReview",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0A0A0A",
+    "theme_color": "#FFD60A",
+    "description": "Khám phá tour, đọc review chân thực từ người Việt và đặt tour an toàn.",
+    "categories": ["travel", "lifestyle", "shopping"],
+    "lang": "vi-VN",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

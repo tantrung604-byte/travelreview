@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /*.json$
+Disallow: /search?
+
+Sitemap: https://travelreview.vn/sitemap.xml
+Sitemap: https://travelreview.vn/sitemap-tours.xml
+
