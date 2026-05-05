@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>TravelReview — Mockup gallery (Vàng & Đen)</title>
+<style>
+  :root {
+    --yellow: #FFD60A;
+    --yellow-deep: #FFAB00;
+    --black: #0A0A0A;
+    --cream: #FFFBEA;
+    --ink-2: #6B6B70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", Inter, "Plus Jakarta Sans", sans-serif;
+    background:
+      radial-gradient(1000px 600px at 80% -10%, rgba(255,214,10,0.18), transparent 60%),
+      linear-gradient(180deg, #0A0A0A 0%, #111114 100%);
+    color: var(--cream);
+    min-height: 100vh;
+    padding: 48px 32px 80px;
+  }
+  header {
+    max-width: 1280px;
+    margin: 0 auto 48px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .logo {
+    width: 56px; height: 56px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--yellow), var(--yellow-deep));
+    display: grid; place-items: center;
+    color: var(--black); font-weight: 900; font-size: 28px;
+    box-shadow: 0 8px 30px rgba(255,214,10,0.4);
+  }
+  h1 { font-size: 40px; font-weight: 900; letter-spacing: -1px; }
+  h1 span { color: var(--yellow); }
+  .sub { color: #9CA3AF; font-size: 15px; margin-top: 4px; }
+  .palette {
+    display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap;
+  }
+  .swatch {
+    padding: 8px 14px; border-radius: 999px; font-size: 12px;
+    font-weight: 700; font-family: "JetBrains Mono", monospace;
+    border: 1px solid rgba(255,214,10,0.3);
+  }
+  .grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    gap: 32px;
+    grid-template-columns: 1fr;
+  }
+  .row-mobiles {
+    display: grid; gap: 32px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  .card {
+    background: linear-gradient(180deg, #1A1A1D, #0E0E10);
+    border: 1px solid rgba(255,214,10,0.15);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .card h2 {
+    font-size: 18px; font-weight: 800; margin-bottom: 4px;
+  }
+  .card .tag {
+    display: inline-block; padding: 4px 10px; border-radius: 999px;
+    background: rgba(255,214,10,0.15); color: var(--yellow);
+    font-size: 11px; font-weight: 700; margin-bottom: 16px;
+  }
+  .frame {
+    background: var(--cream); border-radius: 16px; overflow: hidden;
+    display: grid; place-items: center;
+    padding: 0;
+  }
+  .frame.dark { background: #0A0A0A; }
+  .frame img, .frame object {
+    display: block; width: 100%; height: auto;
+  }
+  .desc { color: #9CA3AF; font-size: 13px; line-height: 1.6; margin-top: 16px; }
+  .desc strong { color: var(--yellow); font-weight: 700; }
+  footer {
+    max-width: 1280px; margin: 64px auto 0;
+    text-align: center; color: #6B6B70; font-size: 12px;
+  }
+  footer a { color: var(--yellow); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">T</div>
+  <div>
+    <h1>TravelReview <span>· Mockup</span></h1>
+    <div class="sub">Tông màu chủ đạo: <strong style="color:var(--yellow)">Vàng (#FFD60A)</strong> &amp; <strong>Đen (#0A0A0A)</strong></div>
+  </div>
+  <div class="palette">
+    <div class="swatch" style="background:#FFD60A;color:#0A0A0A">#FFD60A</div>
+    <div class="swatch" style="background:#FFAB00;color:#0A0A0A">#FFAB00</div>
+    <div class="swatch" style="background:#0A0A0A;color:#FFD60A">#0A0A0A</div>
+    <div class="swatch" style="background:#FFFBEA;color:#0A0A0A">#FFFBEA</div>
+  </div>
+</header>
+
+<div class="grid">
+
+  <!-- Mobile screens -->
+  <div class="row-mobiles">
+    <div class="card">
+      <span class="tag">📱 Mobile · User</span>
+      <h2>Discover (Khám phá)</h2>
+      <div class="frame" style="margin-top:16px;padding:24px;">
+        <object data="mobile_discover.svg" type="image/svg+xml" style="width:280px"></object>
+      </div>
+      <div class="desc">
+        Greeting cá nhân hoá, search bar đen với <strong>nút AI vàng</strong>, chips category, hero card trending có <strong>flash sale countdown</strong>, badge giảm giá vàng nổi bật trên nền tối. Bottom nav đen — tab active = pill vàng.
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="tag">📱 Mobile · User</span>
+      <h2>Tour Detail</h2>
+      <div class="frame" style="margin-top:16px;padding:24px;">
+        <object data="mobile_tour_detail.svg" type="image/svg+xml" style="width:280px"></object>
+      </div>
+      <div class="desc">
+        SliverAppBar hero gradient vàng→đen, <strong>AI summary review</strong> trong card đen viền vàng trái, operator card có badge verified, bottom CTA bar gradient vàng cực nổi — không thể miss khi cuộn.
+      </div>
+    </div>
+  </div>
+
+  <!-- Web -->
+  <div class="card">
+    <span class="tag">🌐 Web · Landing</span>
+    <h2>Trang chủ Web (1440 × 900)</h2>
+    <div class="frame dark" style="margin-top:16px;padding:0;">
+      <object data="web_landing.svg" type="image/svg+xml" style="width:100%;max-width:1200px"></object>
+    </div>
+    <div class="desc">
+      Hero đen sâu với <strong>radial light vàng</strong> ở góc, headline 68px font đen+vàng, search panel kem nổi trên nền đen, stats vàng to. 3 card trending bên dưới với gradient vàng→đen tạo nhịp điệu. Phone mockup ở phải để showcase mobile experience.
+    </div>
+  </div>
+
+  <!-- Admin -->
+  <div class="card">
+    <span class="tag">👑 Web · Admin Portal</span>
+    <h2>Dashboard Admin (Dark mode mặc định)</h2>
+    <div class="frame dark" style="margin-top:16px;padding:0;">
+      <object data="admin_dashboard.svg" type="image/svg+xml" style="width:100%;max-width:1200px"></object>
+    </div>
+    <div class="desc">
+      NavRail đen với <strong>logo vàng</strong> + badge ⚠ PROD đỏ. KPI cards có sparkline vàng, chart cột vàng nổi trên nền đen. Right panel "Chờ duyệt KYC" với button vàng "Duyệt" 1-tap. Table top operators có status pill — tổng thể <strong>data-dense, contrast cao</strong>.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 TravelReview · Mockup được render bằng SVG (vector, scale vô hạn).
+  Mở từng file riêng tại <a href="mobile_discover.svg">discover</a> ·
+  <a href="mobile_tour_detail.svg">tour detail</a> ·
+  <a href="web_landing.svg">web landing</a> ·
+  <a href="admin_dashboard.svg">admin</a>.
+</footer>
+
+</body>
+</html>
+

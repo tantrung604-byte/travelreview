@@ -1,0 +1,62 @@
+{
+  "@@locale": "vi",
+  "appTitle": "TravelReview",
+  "navHome": "Khám phá",
+  "navSearch": "Tìm kiếm",
+  "navBookings": "Đơn của tôi",
+  "navProfile": "Cá nhân",
+  "welcomeTitle": "Chào mừng đến với TravelReview!",
+  "welcomeSubtitle": "Riverpod + Firebase đã sẵn sàng.",
+  "counterLabel": "Bộ đếm: {count}",
+  "@counterLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "incrementTooltip": "Tăng",
+  "settingsTitle": "Cài đặt",
+  "languageLabel": "Ngôn ngữ",
+  "languageSystem": "Theo hệ thống",
+  "languageVi": "Tiếng Việt",
+  "languageEn": "English",
+  "bookNow": "Đặt ngay",
+  "priceFrom": "Từ {price}",
+  "@priceFrom": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "reviewsCount": "{count, plural, =0{Chưa có đánh giá} =1{1 đánh giá} other{{count} đánh giá}}",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "legalTitle": "Pháp lý & Chính sách",
+  "legalIntro": "Các tài liệu sau áp dụng khi bạn sử dụng TravelReview. Vui lòng đọc kỹ trước khi tiếp tục.",
+  "legalPrivacy": "Chính sách Quyền riêng tư",
+  "legalPrivacySubtitle": "Cách chúng tôi thu thập và bảo vệ dữ liệu của bạn",
+  "legalTerms": "Điều khoản Dịch vụ",
+  "legalTermsSubtitle": "Quyền và nghĩa vụ khi sử dụng ứng dụng",
+  "legalCommunity": "Quy tắc Cộng đồng",
+  "legalCommunitySubtitle": "Nguyên tắc đăng review, ảnh và bình luận",
+  "legalCookies": "Chính sách Cookie",
+  "legalCookiesSubtitle": "Chỉ áp dụng cho phiên bản web",
+  "legalAccountDeletion": "Yêu cầu xóa tài khoản",
+  "legalAccountDeletionSubtitle": "Xóa tài khoản và dữ liệu cá nhân của bạn",
+  "legalAbout": "Về TravelReview",
+  "legalAboutSubtitle": "Phiên bản, pháp nhân, liên hệ",
+  "legalLicenses": "Giấy phép mã nguồn mở",
+  "legalLicensesSubtitle": "Các thư viện bên thứ ba được sử dụng",
+  "legalLoadError": "Không thể tải tài liệu. Vui lòng thử lại sau.",
+  "legalFooter": "Phiên bản {version} • Cập nhật {date}",
+  "@legalFooter": {
+    "placeholders": {
+      "version": { "type": "String" },
+      "date": { "type": "String" }
+    }
+  },
+  "legalAndPolicies": "Pháp lý & Chính sách"
+}
+

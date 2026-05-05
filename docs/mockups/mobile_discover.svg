@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844" font-family="-apple-system, 'Segoe UI', Inter, sans-serif">
+  <defs>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFD60A"/>
+      <stop offset="1" stop-color="#F5A524"/>
+    </linearGradient>
+    <linearGradient id="card1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1A1A1D"/>
+      <stop offset="1" stop-color="#0A0A0A"/>
+    </linearGradient>
+    <linearGradient id="img1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFD60A"/>
+      <stop offset="0.6" stop-color="#FF9F0A"/>
+      <stop offset="1" stop-color="#0A0A0A"/>
+    </linearGradient>
+    <linearGradient id="img2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A0A0A"/>
+      <stop offset="0.5" stop-color="#3A2E00"/>
+      <stop offset="1" stop-color="#FFD60A"/>
+    </linearGradient>
+    <linearGradient id="img3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F5A524"/>
+      <stop offset="1" stop-color="#0A0A0A"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="390" height="844" fill="#FFFBEA"/>
+
+  <!-- Status bar -->
+  <rect width="390" height="44" fill="#FFFBEA"/>
+  <text x="28" y="28" font-size="14" font-weight="600" fill="#0A0A0A">9:41</text>
+  <g transform="translate(330,18)" fill="#0A0A0A">
+    <rect x="0" y="0" width="18" height="10" rx="2"/>
+    <rect x="22" y="2" width="14" height="6" rx="1"/>
+    <rect x="40" y="0" width="22" height="10" rx="3" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+    <rect x="42" y="2" width="16" height="6" rx="1"/>
+  </g>
+
+  <!-- Top bar -->
+  <g transform="translate(20,56)">
+    <text font-size="13" fill="#6B6B70">Chào bạn 👋</text>
+    <text y="22" font-size="22" font-weight="800" fill="#0A0A0A">Khám phá Việt Nam</text>
+    <!-- avatar -->
+    <circle cx="330" cy="14" r="20" fill="#0A0A0A"/>
+    <circle cx="330" cy="14" r="20" fill="url(#hero)" opacity="0.9"/>
+    <text x="330" y="19" text-anchor="middle" font-size="14" font-weight="800" fill="#0A0A0A">T</text>
+  </g>
+
+  <!-- Search bar -->
+  <g transform="translate(20,124)" filter="url(#shadow)">
+    <rect width="350" height="52" rx="26" fill="#0A0A0A"/>
+    <circle cx="28" cy="26" r="9" fill="none" stroke="#FFD60A" stroke-width="2"/>
+    <line x1="35" y1="33" x2="42" y2="40" stroke="#FFD60A" stroke-width="2" stroke-linecap="round"/>
+    <text x="56" y="31" font-size="14" fill="#9CA3AF">Bạn muốn đi đâu?</text>
+    <rect x="290" y="10" width="50" height="32" rx="16" fill="#FFD60A"/>
+    <text x="315" y="30" text-anchor="middle" font-size="11" font-weight="700" fill="#0A0A0A">AI ✨</text>
+  </g>
+
+  <!-- Category chips -->
+  <g transform="translate(20,196)">
+    <rect width="78" height="36" rx="18" fill="#0A0A0A"/>
+    <text x="39" y="23" text-anchor="middle" font-size="13" font-weight="600" fill="#FFD60A">🏖 Biển</text>
+
+    <rect x="86" width="74" height="36" rx="18" fill="#FFFBEA" stroke="#0A0A0A" stroke-width="1.5"/>
+    <text x="123" y="23" text-anchor="middle" font-size="13" fill="#0A0A0A">⛰ Núi</text>
+
+    <rect x="168" width="84" height="36" rx="18" fill="#FFFBEA" stroke="#0A0A0A" stroke-width="1.5"/>
+    <text x="210" y="23" text-anchor="middle" font-size="13" fill="#0A0A0A">🍜 Ẩm thực</text>
+
+    <rect x="260" width="90" height="36" rx="18" fill="#FFFBEA" stroke="#0A0A0A" stroke-width="1.5"/>
+    <text x="305" y="23" text-anchor="middle" font-size="13" fill="#0A0A0A">🥾 Trekking</text>
+  </g>
+
+  <!-- Section title -->
+  <g transform="translate(20,254)">
+    <text font-size="17" font-weight="800" fill="#0A0A0A">🔥 Trending tuần này</text>
+    <text x="350" y="0" text-anchor="end" font-size="12" font-weight="600" fill="#0A0A0A">Tất cả →</text>
+  </g>
+
+  <!-- Hero card 1 -->
+  <g transform="translate(20,272)" filter="url(#shadow)">
+    <rect width="280" height="200" rx="20" fill="url(#img1)"/>
+    <!-- yellow badge -->
+    <rect x="14" y="14" width="74" height="26" rx="13" fill="#FFD60A"/>
+    <text x="51" y="31" text-anchor="middle" font-size="11" font-weight="800" fill="#0A0A0A">⚡ -25%</text>
+    <!-- heart -->
+    <circle cx="252" cy="27" r="16" fill="#0A0A0A" opacity="0.4"/>
+    <text x="252" y="32" text-anchor="middle" font-size="14" fill="#FFD60A">♡</text>
+    <!-- bottom info -->
+    <rect y="120" width="280" height="80" rx="0" fill="url(#card1)" opacity="0.92"/>
+    <text x="14" y="148" font-size="15" font-weight="800" fill="#FFFBEA">Đà Nẵng — Bà Nà 3N2Đ</text>
+    <text x="14" y="166" font-size="11" fill="#FFD60A">★ 4.9</text>
+    <text x="44" y="166" font-size="11" fill="#9CA3AF">(2.341 đánh giá)</text>
+    <text x="14" y="186" font-size="13" font-weight="800" fill="#FFD60A">1.290.000đ</text>
+    <text x="100" y="186" font-size="11" fill="#9CA3AF" text-decoration="line-through">1.720.000đ</text>
+  </g>
+
+  <!-- Peek of next card -->
+  <g transform="translate(310,272)">
+    <rect width="60" height="200" rx="20" fill="url(#img2)"/>
+  </g>
+
+  <!-- Flash sale strip -->
+  <g transform="translate(20,492)" filter="url(#shadow)">
+    <rect width="350" height="68" rx="16" fill="#0A0A0A"/>
+    <rect width="6" height="68" rx="3" fill="#FFD60A"/>
+    <text x="20" y="26" font-size="11" font-weight="700" fill="#FFD60A">⏰ FLASH SALE</text>
+    <text x="20" y="48" font-size="14" font-weight="800" fill="#FFFBEA">Phú Quốc 4N3Đ giảm 40%</text>
+    <text x="20" y="62" font-size="10" fill="#9CA3AF">Còn 02:14:33 — Chỉ 12 chỗ cuối</text>
+    <rect x="270" y="20" width="68" height="32" rx="16" fill="#FFD60A"/>
+    <text x="304" y="40" text-anchor="middle" font-size="12" font-weight="800" fill="#0A0A0A">Đặt ngay</text>
+  </g>
+
+  <!-- Section "Gần bạn" -->
+  <g transform="translate(20,584)">
+    <text font-size="17" font-weight="800" fill="#0A0A0A">📍 Gần bạn (Đà Lạt)</text>
+  </g>
+
+  <!-- 2 small cards -->
+  <g transform="translate(20,608)" filter="url(#shadow)">
+    <rect width="166" height="140" rx="16" fill="url(#img3)"/>
+    <rect y="92" width="166" height="48" fill="url(#card1)" opacity="0.92"/>
+    <text x="12" y="112" font-size="12" font-weight="700" fill="#FFFBEA">Săn mây Cầu Đất</text>
+    <text x="12" y="130" font-size="11" font-weight="700" fill="#FFD60A">450k</text>
+    <text x="40" y="130" font-size="10" fill="#9CA3AF">★ 4.8</text>
+  </g>
+  <g transform="translate(204,608)" filter="url(#shadow)">
+    <rect width="166" height="140" rx="16" fill="url(#img2)"/>
+    <rect y="92" width="166" height="48" fill="url(#card1)" opacity="0.92"/>
+    <text x="12" y="112" font-size="12" font-weight="700" fill="#FFFBEA">Trang trại dâu</text>
+    <text x="12" y="130" font-size="11" font-weight="700" fill="#FFD60A">280k</text>
+    <text x="40" y="130" font-size="10" fill="#9CA3AF">★ 4.7</text>
+  </g>
+
+  <!-- Bottom Nav -->
+  <g transform="translate(0,768)">
+    <rect width="390" height="76" fill="#0A0A0A"/>
+    <!-- selected: Discover -->
+    <g transform="translate(28,18)">
+      <circle cx="20" cy="20" r="20" fill="#FFD60A"/>
+      <text x="20" y="26" text-anchor="middle" font-size="16" fill="#0A0A0A">🏠</text>
+    </g>
+    <g transform="translate(120,18)">
+      <text x="20" y="22" text-anchor="middle" font-size="16" fill="#9CA3AF">🔍</text>
+      <text x="20" y="40" text-anchor="middle" font-size="9" fill="#9CA3AF">Tìm</text>
+    </g>
+    <g transform="translate(212,18)">
+      <text x="20" y="22" text-anchor="middle" font-size="16" fill="#9CA3AF">🎫</text>
+      <text x="20" y="40" text-anchor="middle" font-size="9" fill="#9CA3AF">Đơn</text>
+    </g>
+    <g transform="translate(304,18)">
+      <text x="20" y="22" text-anchor="middle" font-size="16" fill="#9CA3AF">👤</text>
+      <text x="20" y="40" text-anchor="middle" font-size="9" fill="#9CA3AF">Tôi</text>
+    </g>
+  </g>
+
+  <!-- Home indicator -->
+  <rect x="135" y="828" width="120" height="4" rx="2" fill="#0A0A0A"/>
+</svg>
+

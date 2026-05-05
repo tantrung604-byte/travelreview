@@ -1,0 +1,62 @@
+{
+  "@@locale": "en",
+  "appTitle": "TravelReview",
+  "navHome": "Discover",
+  "navSearch": "Search",
+  "navBookings": "My Bookings",
+  "navProfile": "Profile",
+  "welcomeTitle": "Welcome to TravelReview!",
+  "welcomeSubtitle": "Riverpod + Firebase are ready.",
+  "counterLabel": "Counter: {count}",
+  "@counterLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "incrementTooltip": "Increment",
+  "settingsTitle": "Settings",
+  "languageLabel": "Language",
+  "languageSystem": "System default",
+  "languageVi": "Tiếng Việt",
+  "languageEn": "English",
+  "bookNow": "Book now",
+  "priceFrom": "From {price}",
+  "@priceFrom": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "reviewsCount": "{count, plural, =0{No reviews} =1{1 review} other{{count} reviews}}",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "legalTitle": "Legal & Policies",
+  "legalIntro": "The following documents apply when you use TravelReview. Please read carefully before continuing.",
+  "legalPrivacy": "Privacy Policy",
+  "legalPrivacySubtitle": "How we collect and protect your data",
+  "legalTerms": "Terms of Service",
+  "legalTermsSubtitle": "Your rights and duties when using the app",
+  "legalCommunity": "Community Guidelines",
+  "legalCommunitySubtitle": "Rules for posting reviews, photos and comments",
+  "legalCookies": "Cookie Policy",
+  "legalCookiesSubtitle": "Web version only",
+  "legalAccountDeletion": "Account Deletion",
+  "legalAccountDeletionSubtitle": "Delete your account and personal data",
+  "legalAbout": "About TravelReview",
+  "legalAboutSubtitle": "Version, legal entity, contact",
+  "legalLicenses": "Open-source Licenses",
+  "legalLicensesSubtitle": "Third-party libraries used",
+  "legalLoadError": "Could not load document. Please try again later.",
+  "legalFooter": "Version {version} • Updated {date}",
+  "@legalFooter": {
+    "placeholders": {
+      "version": { "type": "String" },
+      "date": { "type": "String" }
+    }
+  },
+  "legalAndPolicies": "Legal & Policies"
+}
+
