@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../core/firebase/firebase_providers.dart';
+import '../../l10n/gen/app_localizations.dart';
 import 'dart:typed_data';
 
 class ImageUploadManagerScreen extends ConsumerStatefulWidget {
@@ -34,7 +35,7 @@ class _ImageUploadManagerScreenState extends ConsumerState<ImageUploadManagerScr
 
     setState(() {
       _isUploading = true;
-      _statusMessage = 'Đang tải lên ${_selectedImages.length} ảnh...';
+      _statusMessage = null;
     });
 
     try {
@@ -57,36 +58,38 @@ class _ImageUploadManagerScreenState extends ConsumerState<ImageUploadManagerScr
 
       setState(() {
         _isUploading = false;
-        _statusMessage = 'Thành công! Đã tải lên ${downloadUrls.length} ảnh.';
+        _statusMessage = 'success:${downloadUrls.length}';
         _selectedImages.clear();
       });
 
       if (mounted) {
+        final l = AppL10n.of(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Tải ảnh lên thành công!')),
+          SnackBar(content: Text(l.adminImageUploadSuccess(downloadUrls.length))),
         );
       }
     } catch (e) {
       setState(() {
         _isUploading = false;
-        _statusMessage = 'Lỗi: $e';
+        _statusMessage = 'error:$e';
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = AppL10n.of(context);
     final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quản lý Upload Hình Ảnh'),
+        title: Text(l.adminImageUploadTitle),
         actions: [
           if (_selectedImages.isNotEmpty && !_isUploading)
             TextButton.icon(
               onPressed: _uploadImages,
               icon: const Icon(Icons.cloud_upload),
-              label: const Text('Tải lên ngay'),
+              label: Text(l.adminImageUploadNow),
               style: TextButton.styleFrom(foregroundColor: theme.colorScheme.primary),
             ),
         ],
@@ -97,31 +100,40 @@ class _ImageUploadManagerScreenState extends ConsumerState<ImageUploadManagerScr
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Chọn hình ảnh cho các Tour & Vùng du lịch',
+              l.adminImageUploadHeading,
               style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              'Hình ảnh sau khi tải lên sẽ có link URL để bạn gắn vào bài viết review và hướng dẫn.',
+              l.adminImageUploadDescription,
               style: TextStyle(color: theme.colorScheme.onSurface.withValues(alpha: 0.6)),
             ),
             const SizedBox(height: 24),
             if (_statusMessage != null)
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                margin: const EdgeInsets.only(bottom: 20),
-                decoration: BoxDecoration(
-                  color: _statusMessage!.contains('Lỗi')
-                    ? Colors.red.withValues(alpha: 0.1)
-                    : Colors.green.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: _statusMessage!.contains('Lỗi') ? Colors.red : Colors.green
+              Builder(builder: (context) {
+                final isError = _statusMessage!.startsWith('error:');
+                final isSuccess = _statusMessage!.startsWith('success:');
+                final successCount = isSuccess
+                    ? int.tryParse(_statusMessage!.substring('success:'.length)) ?? 0
+                    : 0;
+                final message = isError
+                    ? l.adminImageUploadError(_statusMessage!.substring('error:'.length))
+                    : l.adminImageUploadSuccess(successCount);
+                return Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(
+                    color: isError
+                        ? Colors.red.withValues(alpha: 0.1)
+                        : Colors.green.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: isError ? Colors.red : Colors.green),
                   ),
-                ),
-                child: Text(_statusMessage!, style: const TextStyle(fontWeight: FontWeight.w600)),
-              ),
+                  child: Text(message,
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
+                );
+              }),
 
             Expanded(
               child: _selectedImages.isEmpty
@@ -134,7 +146,7 @@ class _ImageUploadManagerScreenState extends ConsumerState<ImageUploadManagerScr
                           OutlinedButton.icon(
                             onPressed: _pickImages,
                             icon: const Icon(Icons.image_search),
-                            label: const Text('Chọn ảnh từ máy tính'),
+                            label: Text(l.adminImagePickFromDevice),
                           ),
                         ],
                       ),

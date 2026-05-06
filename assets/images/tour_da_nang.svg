@@ -1,0 +1,16 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#003B73"/>
+      <stop offset="100%" stop-color="#00A6FB"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <circle cx="980" cy="120" r="70" fill="#FFD166"/>
+  <path d="M0 560 L220 430 L420 520 L680 340 L1200 560 L1200 800 L0 800 Z" fill="#0B1B2B" opacity="0.35"/>
+  <path d="M80 590 L310 450 L540 590 Z" fill="#1F6F8B"/>
+  <path d="M360 620 L650 430 L920 620 Z" fill="#175676"/>
+  <rect x="130" y="620" width="940" height="16" rx="8" fill="#E0FBFC" opacity="0.85"/>
+  <text x="80" y="120" fill="#FFFFFF" font-family="Arial" font-size="60" font-weight="700">DA NANG</text>
+  <text x="80" y="178" fill="#EAF6FF" font-family="Arial" font-size="32">Golden Bridge • Ba Na Hills</text>
+</svg>

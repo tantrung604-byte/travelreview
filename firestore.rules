@@ -1,0 +1,94 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- Helpers ----
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.admin == true ||
+        request.auth.token.role == 'admin' ||
+        ('roles' in request.auth.token && request.auth.token.roles.hasAny(['admin']))
+      );
+    }
+
+    // Email đã verify (đăng nhập password đã click link) HOẶC đăng nhập qua Google
+    // (Google trả token với email_verified=true mặc định).
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    // ---- tours/{id} ----
+    // Public read (browse + booking funnel). Write chỉ admin.
+    match /tours/{tourId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+
+      // ---- tours/{id}/reviews/{reviewId} ----
+      // Public read; CHỈ user đã verify email (hoặc đăng nhập Google) mới tạo được
+      // review. Sửa/xoá: chính owner hoặc admin.
+      match /reviews/{reviewId} {
+        allow read: if true;
+        allow create: if isEmailVerified()
+          && request.resource.data.userId == request.auth.uid
+          && request.resource.data.rating is int
+          && request.resource.data.rating >= 1
+          && request.resource.data.rating <= 5
+          && request.resource.data.content is string
+          && request.resource.data.content.size() <= 2000;
+        allow update, delete: if isAdmin()
+          || (isSignedIn() && resource.data.userId == request.auth.uid);
+      }
+    }
+
+    // ---- seo/{routeKey} ----
+    // Public read (mọi client cần meta tags). Write chỉ admin.
+    match /seo/{routeKey} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ---- reviews/{id} (top-level, tương lai) ----
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isEmailVerified()
+        && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+    }
+
+    // ---- bookings/{id} ----
+    // Chỉ owner đọc; admin đọc tất. Tạo: phải có email verify (chống spam đặt hàng).
+    match /bookings/{bookingId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow create: if isEmailVerified()
+        && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // ---- users/{uid} ----
+    // Admin đọc/ghi tất cả. User chỉ đọc/ghi doc của chính họ.
+    // Cho phép user tự cập nhật session info (IP, device, lastLoginAt).
+    match /users/{uid} {
+      allow read: if isAdmin() || (isSignedIn() && request.auth.uid == uid);
+      allow create: if isSignedIn() && request.auth.uid == uid;
+      // User update: chỉ được sửa session fields; admin được sửa tất cả (kể cả status, banReason)
+      allow update: if isAdmin() ||
+        (isSignedIn() && request.auth.uid == uid &&
+         !request.resource.data.diff(resource.data).affectedKeys()
+           .hasAny(['status', 'banReason', 'bannedAt', 'bannedBy']));
+      allow delete: if isAdmin();
+    }
+
+    // Mặc định: deny tất cả collection chưa khai báo.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+

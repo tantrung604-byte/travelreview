@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/seo/seo_config.dart';
+import '../../l10n/gen/app_localizations.dart';
+import 'admin_providers.dart';
 
 /// Admin SEO Manager — quản lý H1, H2, meta tags, keywords, schema structure v.v.
+/// Đọc / lưu vào Firestore qua [SeoRepository] để mọi client đồng bộ.
 class SeoManagerScreen extends ConsumerStatefulWidget {
   final String? routeKey; // e.g. '/', '/tour'
 
@@ -26,24 +29,59 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
 
   List<String> _h2List = [];
   bool _noindex = false;
+  bool _saving = false;
+  bool _loading = false;
+  late String _currentRoute;
 
   @override
   void initState() {
     super.initState();
-    final routeKey = widget.routeKey ?? '/';
-    final seoCtrl = ref.read(seoControllerProvider.notifier);
-    final current = seoCtrl.getPageSeo(routeKey) ?? SeoMetadata();
+    _currentRoute = widget.routeKey ?? '/';
 
-    _titleCtrl = TextEditingController(text: current.title);
-    _descCtrl = TextEditingController(text: current.description);
-    _keywordsCtrl = TextEditingController(text: current.keywords);
-    _h1Ctrl = TextEditingController(text: current.h1);
+    _titleCtrl = TextEditingController();
+    _descCtrl = TextEditingController();
+    _keywordsCtrl = TextEditingController();
+    _h1Ctrl = TextEditingController();
     _h2Ctrl = TextEditingController();
-    _canonicalCtrl = TextEditingController(text: current.canonicalUrl);
-    _ogImageCtrl = TextEditingController(text: current.ogImage);
-    _schemaCtrl = TextEditingController(text: current.schemaJson);
-    _h2List = [...current.h2List];
-    _noindex = current.noindex;
+    _canonicalCtrl = TextEditingController();
+    _ogImageCtrl = TextEditingController();
+    _schemaCtrl = TextEditingController();
+
+    // Load SEO của route hiện tại sau frame đầu (cần ref).
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadRoute(_currentRoute));
+  }
+
+  Future<void> _loadRoute(String route) async {
+    setState(() => _loading = true);
+    try {
+      // Ưu tiên Firestore; fallback về controller in-memory default.
+      final fromCloud = await ref.read(seoRepositoryProvider).load(route);
+      final current = fromCloud ??
+          ref.read(seoControllerProvider.notifier).getPageSeo(route) ??
+          const SeoMetadata();
+
+      setState(() {
+        _currentRoute = route;
+        _titleCtrl.text = current.title;
+        _descCtrl.text = current.description;
+        _keywordsCtrl.text = current.keywords;
+        _h1Ctrl.text = current.h1;
+        _h2Ctrl.text = '';
+        _canonicalCtrl.text = current.canonicalUrl;
+        _ogImageCtrl.text = current.ogImage;
+        _schemaCtrl.text = current.schemaJson;
+        _h2List = [...current.h2List];
+        _noindex = current.noindex;
+      });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Load SEO failed: $e')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
   }
 
   @override
@@ -59,8 +97,9 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
     super.dispose();
   }
 
-  void _saveSeo() {
-    final routeKey = widget.routeKey ?? '/';
+  Future<void> _saveSeo() async {
+    final l = AppL10n.of(context);
+    final routeKey = _currentRoute;
     final newSeo = SeoMetadata(
       title: _titleCtrl.text,
       description: _descCtrl.text,
@@ -72,17 +111,35 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
       schemaJson: _schemaCtrl.text,
       noindex: _noindex,
     );
-    ref.read(seoControllerProvider.notifier).setPageSeo(routeKey, newSeo);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('✅ Đã lưu SEO cho route: $routeKey'),
-        backgroundColor: Colors.green,
-      ),
-    );
+
+    setState(() => _saving = true);
+    try {
+      // Lưu cả Firestore (đồng bộ tất cả client) và in-memory (cập nhật ngay).
+      await ref.read(seoRepositoryProvider).save(routeKey, newSeo);
+      ref.read(seoControllerProvider.notifier).setPageSeo(routeKey, newSeo);
+      // Invalidate cache để các page khác đọc lại.
+      ref.invalidate(seoForRouteProvider(routeKey));
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l.adminSeoSaved(routeKey)),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Save failed: $e'), backgroundColor: Colors.red),
+      );
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = AppL10n.of(context);
     final theme = Theme.of(context);
     final seoScore = SeoMetadata(
       title: _titleCtrl.text,
@@ -98,7 +155,7 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
           children: [
             const Icon(Icons.search_outlined),
             const SizedBox(width: 8),
-            const Text('SEO Manager'),
+            Text(l.adminNavSeo),
             const Spacer(),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -107,7 +164,7 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                'Score: $seoScore/100',
+                l.adminSeoScore(seoScore),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
@@ -123,33 +180,78 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ===== Route selector =====
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.3)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.link, size: 20),
+                  const SizedBox(width: 8),
+                  const Text('Route:', style: TextStyle(fontWeight: FontWeight.w800)),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: adminSeoManagedRoutes.contains(_currentRoute)
+                          ? _currentRoute
+                          : null,
+                      hint: Text(_currentRoute),
+                      items: [
+                        for (final r in adminSeoManagedRoutes)
+                          DropdownMenuItem(value: r, child: Text(r)),
+                      ],
+                      onChanged: _loading
+                          ? null
+                          : (v) {
+                              if (v != null && v != _currentRoute) {
+                                _loadRoute(v);
+                              }
+                            },
+                    ),
+                  ),
+                  if (_loading)
+                    const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+
             // ===== Title Meta Tag =====
             _buildField(
-              label: 'Page Title (Meta tag)',
-              hint: '30-60 ký tự (${_titleCtrl.text.length})',
+              label: l.adminSeoPageTitle,
+              hint: l.adminSeoTitleHint(_titleCtrl.text.length),
               controller: _titleCtrl,
               maxLines: 2,
-              helperText: 'Hiển thị trên tab trình duyệt & kết quả tìm kiếm',
+              helperText: l.adminSeoTitleHelper,
             ),
             const SizedBox(height: 16),
 
             // ===== Description Meta Tag =====
             _buildField(
-              label: 'Meta Description',
-              hint: '120-160 ký tự (${_descCtrl.text.length})',
+              label: l.adminSeoMetaDescription,
+              hint: l.adminSeoDescriptionHint(_descCtrl.text.length),
               controller: _descCtrl,
               maxLines: 3,
-              helperText: 'Mô tả nội dung dưới title trên Google',
+              helperText: l.adminSeoDescriptionHelper,
             ),
             const SizedBox(height: 16),
 
             // ===== Keywords =====
             _buildField(
-              label: 'Keywords (từ khoá)',
-              hint: 'Cách nhau bằng dấu phẩy',
+              label: l.adminSeoKeywords,
+              hint: l.adminSeoKeywordsHint,
               controller: _keywordsCtrl,
               maxLines: 2,
-              helperText: 'Meta keywords (ít quan trọng nhưng vẫn tốt)',
+              helperText: l.adminSeoKeywordsHelper,
             ),
             const SizedBox(height: 24),
 
@@ -168,7 +270,7 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
                       const Icon(Icons.title, size: 20),
                       const SizedBox(width: 8),
                       Text(
-                        'H1 Heading (Rất quan trọng)',
+                        l.adminSeoH1,
                         style: theme.textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.w800),
                       ),
@@ -177,10 +279,10 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
                   const SizedBox(height: 8),
                   _buildField(
                     label: '',
-                    hint: 'Tiêu đề chính của trang (chỉ 1 H1)',
+                      hint: l.adminSeoH1Hint,
                     controller: _h1Ctrl,
                     maxLines: 2,
-                    helperText: 'Phải khác với title tag',
+                      helperText: l.adminSeoH1Helper,
                   ),
                 ],
               ),
@@ -202,7 +304,7 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
                       const Icon(Icons.subject, size: 20),
                       const SizedBox(width: 8),
                       Text(
-                        'H2 Headings (Sections)',
+                        l.adminSeoH2,
                         style: theme.textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.w800),
                       ),
@@ -247,7 +349,7 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
                         child: TextField(
                           controller: _h2Ctrl,
                           decoration: InputDecoration(
-                            hintText: 'Nhập H2 heading',
+                            hintText: l.adminSeoH2InputHint,
                             isDense: true,
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 8),
@@ -278,28 +380,28 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
 
             // ===== Other Meta =====
             _buildField(
-              label: 'Canonical URL',
+              label: l.adminSeoCanonical,
               hint: 'https://travelreview.vn/page-url',
               controller: _canonicalCtrl,
-              helperText: 'Tránh duplicate content',
+              helperText: l.adminSeoCanonicalHelper,
             ),
             const SizedBox(height: 16),
 
             _buildField(
-              label: 'OG Image URL (Social Media)',
+              label: l.adminSeoOgImage,
               hint: 'https://travelreview.vn/og-image.jpg',
               controller: _ogImageCtrl,
-              helperText: 'Ảnh hiển thị khi share trên Facebook, etc.',
+              helperText: l.adminSeoOgImageHelper,
             ),
             const SizedBox(height: 16),
 
             // ===== JSON-LD Schema =====
             _buildField(
-              label: 'JSON-LD Structured Data',
+              label: l.adminSeoJsonLd,
               hint: '{"@context": "https://schema.org", "@type": "WebPage", ...}',
               controller: _schemaCtrl,
               maxLines: 6,
-              helperText: 'Schema.org markup cho Rich Snippets',
+              helperText: l.adminSeoJsonLdHelper,
             ),
             const SizedBox(height: 16),
 
@@ -307,8 +409,8 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
             SwitchListTile.adaptive(
               value: _noindex,
               onChanged: (v) => setState(() => _noindex = v),
-              title: const Text('🚫 Robots: NOINDEX'),
-              subtitle: const Text('Không index trang này trên Google'),
+              title: Text(l.adminSeoNoindexTitle),
+              subtitle: Text(l.adminSeoNoindexSubtitle),
               contentPadding: EdgeInsets.zero,
             ),
             const SizedBox(height: 24),
@@ -326,14 +428,14 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '🔍 Google Search Result Preview',
+                    l.adminSeoPreviewTitle,
                     style: theme.textTheme.titleSmall
                         ?.copyWith(fontWeight: FontWeight.w800),
                   ),
                   const SizedBox(height: 12),
                   Text(
                     _titleCtrl.text.isEmpty
-                        ? 'Page Title'
+                        ? l.adminSeoPageTitle
                         : _titleCtrl.text,
                     style: TextStyle(
                       color: theme.colorScheme.primary,
@@ -343,7 +445,7 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
                   ),
                   Text(
                     _canonicalCtrl.text.isEmpty
-                        ? 'https://travelreview.vn'
+                        ? l.adminSeoCanonicalDefault
                         : _canonicalCtrl.text,
                     style: TextStyle(
                       color: Colors.green[600],
@@ -353,7 +455,7 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
                   const SizedBox(height: 4),
                   Text(
                     _descCtrl.text.isEmpty
-                        ? 'Meta description...'
+                        ? l.adminSeoMetaDescriptionPlaceholder
                         : _descCtrl.text,
                     style: TextStyle(
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
@@ -371,9 +473,15 @@ class _SeoManagerScreenState extends ConsumerState<SeoManagerScreen> {
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
-                onPressed: _saveSeo,
-                icon: const Icon(Icons.save),
-                label: const Text('💾 Lưu SEO Config'),
+                onPressed: _saving ? null : _saveSeo,
+                icon: _saving
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.save),
+                label: Text(_saving ? 'Saving...' : l.adminSeoSaveButton),
               ),
             ),
           ],

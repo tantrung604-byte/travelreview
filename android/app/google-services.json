@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "680879674653",
+    "project_id": "travelreview-app",
+    "storage_bucket": "travelreview-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680879674653:android:42ff3b8d55f18d7b0b3df4",
+        "android_client_info": {
+          "package_name": "com.travelreview.travelreview_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOKYbqUPoMWKjRYG8zEEtMw5L-J9Bd_OU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

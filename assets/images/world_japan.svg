@@ -1,0 +1,8 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#F7F7F7"/>
+  <circle cx="600" cy="350" r="190" fill="#BC002D"/>
+  <rect y="610" width="1200" height="190" fill="#2B2D42"/>
+  <path d="M120 610 Q300 520 450 610 T780 610 T1080 610" fill="none" stroke="#8D99AE" stroke-width="12"/>
+  <text x="90" y="120" fill="#2B2D42" font-family="Arial" font-size="58" font-weight="700">JAPAN</text>
+  <text x="90" y="170" fill="#4A4E69" font-family="Arial" font-size="28">Tokyo • Kyoto • Osaka</text>
+</svg>

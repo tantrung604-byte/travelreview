@@ -1,0 +1,16 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1E3A3A"/>
+      <stop offset="100%" stop-color="#3B7A57"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <circle cx="180" cy="120" r="58" fill="#F4F1DE"/>
+  <path d="M0 610 L200 470 L380 590 L600 400 L820 570 L1040 430 L1200 520 L1200 800 L0 800 Z" fill="#274C3D"/>
+  <path d="M120 650 L360 470 L580 650 Z" fill="#315D4B"/>
+  <path d="M480 660 L760 430 L1020 660 Z" fill="#2E513F"/>
+  <rect x="80" y="90" width="370" height="120" rx="18" fill="#000000" opacity="0.25"/>
+  <text x="110" y="150" fill="#FFFFFF" font-family="Arial" font-size="58" font-weight="700">SAPA</text>
+  <text x="110" y="195" fill="#F0FFF4" font-family="Arial" font-size="28">Fansipan • Highland Trails</text>
+</svg>

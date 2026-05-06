@@ -1,0 +1,49 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.admin == true ||
+        request.auth.token.role == 'admin' ||
+        ('roles' in request.auth.token && request.auth.token.roles.hasAny(['admin']))
+      );
+    }
+
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function underMaxSize() {
+      // 10 MB upload cap để tránh abuse.
+      return request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // ---- tours/** : ảnh tour (gallery + free upload) ----
+    // Public read; write chỉ admin, content phải là image và <10MB.
+    match /tours/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && underMaxSize();
+    }
+
+    // ---- users/{uid}/** : avatar / file cá nhân (chuẩn bị tương lai) ----
+    match /users/{uid}/{allPaths=**} {
+      allow read: if true; // avatar public
+      allow write: if isSignedIn()
+        && request.auth.uid == uid
+        && isImage()
+        && underMaxSize();
+    }
+
+    // Mặc định: deny.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
+

@@ -1,0 +1,16 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#001219"/>
+      <stop offset="100%" stop-color="#005F73"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sg)"/>
+  <rect y="590" width="1200" height="210" fill="#0A2A43"/>
+  <path d="M120 590 L220 360 L320 590 Z" fill="#94D2BD"/>
+  <path d="M340 590 L450 290 L560 590 Z" fill="#94D2BD"/>
+  <path d="M610 590 L700 380 L790 590 Z" fill="#94D2BD"/>
+  <path d="M840 590 L940 330 L1040 590 Z" fill="#94D2BD"/>
+  <text x="90" y="120" fill="#E9FAFF" font-family="Arial" font-size="58" font-weight="700">SINGAPORE</text>
+  <text x="90" y="170" fill="#CBEAFF" font-family="Arial" font-size="28">Sentosa • Marina Bay • Gardens by the Bay</text>
+</svg>

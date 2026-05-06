@@ -33,6 +33,257 @@
     }
   },
 
+  "searchTitle": "Tìm kiếm tour",
+  "searchHint": "Đà Nẵng, Sapa, Phú Quốc...",
+  "searchQuickSuggestions": "Gợi ý nhanh",
+
+  "discoverHeroTitle": "Bạn muốn đi đâu hôm nay?",
+  "discoverSearchHint": "Tìm tour, địa điểm, trải nghiệm...",
+  "discoverTrending": "🔥 Trending tuần này",
+  "discoverFromPrice": "từ {price}",
+  "@discoverFromPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "discoverWorldTitle": "🌍 Địa Điểm Ăn Chơi Trên Thế Giới",
+
+  "bookingTitle": "Đặt tour",
+  "bookingContinue": "Tiếp tục",
+  "bookingBack": "Quay lại",
+  "bookingStepDateGuests": "Ngày & số khách",
+  "bookingStepDateGuestsContent": "Tour: {tourId}\nChọn ngày khởi hành và số lượng khách.",
+  "@bookingStepDateGuestsContent": {
+    "placeholders": {
+      "tourId": { "type": "String" }
+    }
+  },
+  "bookingStepContact": "Thông tin liên hệ",
+  "bookingStepContactContent": "Điền email, số điện thoại, ghi chú đặc biệt.",
+  "bookingStepPayment": "Thanh toán",
+  "bookingStepPaymentContent": "Áp voucher và chọn phương thức thanh toán.",
+  "bookingCompleteDemo": "Hoàn tất demo",
+
+  "notFoundTitle": "Không tìm thấy trang",
+  "notFoundRouteLabel": "Route không tồn tại:",
+  "notFoundGoHome": "Về trang chủ",
+
+  "homeAdminLabel": "Admin",
+  "homeCustomizeTheme": "Tùy biến giao diện",
+  "homeExploreByInterestTitle": "Khám phá theo sở thích",
+  "homeExploreByInterestSubtitle": "Gợi ý nhanh cho chuyến đi kế tiếp",
+  "homeViewAll": "Xem tất cả",
+  "homeTrendingTitle": "Xu hướng tuần này",
+  "homeTrendingSubtitle": "Được du khách Việt yêu thích",
+  "homeSeeTours": "Xem tour",
+  "homeWorldPlacesTitle": "Địa Điểm Ăn Chơi Trên Thế Giới",
+  "homeWorldPlacesSubtitle": "Chọn quốc gia, xem điểm tham quan và liên hệ admin mua vé",
+  "homeContactAdmin": "Liên hệ admin",
+  "homeHeroBadge": "TRAVELREVIEW DEALS 2026",
+  "homeHeroTitle": "Khám phá tour, vé và review chân thực.",
+  "homeHeroSubtitle": "Nền tảng du lịch cảm hứng Klook cho người Việt: so sánh tour, đọc review thật và đặt trải nghiệm trong vài phút.",
+  "homeMiniStatTours": "Tours",
+  "homeMiniStatReviews": "Reviews",
+  "homeMiniStatVerifiedOperators": "Đối tác xác minh",
+  "homeSearchDestination": "Điểm đến",
+  "homeSearchDestinationValue": "Đà Nẵng, Sapa...",
+  "homeSearchDate": "Ngày đi",
+  "homeSearchAnytime": "Bất kỳ",
+  "homeSearchGuests": "Khách",
+  "homeSearchGuestsValue": "2 người lớn",
+  "homePromoTitle": "Flash Deals",
+  "homePromoHeadline": "Giảm đến 35% cho trải nghiệm chọn lọc tuần này.",
+  "homePromoSubtitle": "Số chỗ có hạn, đối tác xác minh, xác nhận tức thì.",
+  "homeViewDetails": "Xem chi tiết",
+  "homeTopAttractions": "Khu ăn chơi / địa điểm tham quan nổi bật",
+  "homeContactAdminHelp": "Bạn có thể liên hệ admin để được tư vấn vé, combo gia đình, lịch mở cửa, ưu đãi nhóm và điều kiện hoàn/hủy.",
+  "homeViewReviewGuide": "Xem bài viết review & hướng dẫn",
+  "homeTrustVerifiedOperators": "Đối tác xác minh",
+  "homeTrustSecureBooking": "Đặt chỗ an toàn",
+  "homeTrustSupport247": "Hỗ trợ 24/7",
+  "homeTrustRealReviews": "Review thật",
+
+  "tourReviewEmptyError": "Vui lòng nhập nội dung đánh giá",
+  "tourReviewThanks": "Cảm ơn bạn đã gửi đánh giá!",
+  "tourContactMissingInfo": "Vui lòng nhập họ tên và số điện thoại",
+  "tourContactOpenEmailError": "Không mở được ứng dụng email trên thiết bị này",
+  "tourFallbackTitle": "Tour {id}",
+  "@tourFallbackTitle": {
+    "placeholders": {
+      "id": { "type": "String" }
+    }
+  },
+  "tourUpdating": "Đang cập nhật...",
+  "tourContact": "Liên hệ",
+  "tourRatingLine": "{avg} · {count} đánh giá · 3 ngày 2 đêm",
+  "@tourRatingLine": {
+    "placeholders": {
+      "avg": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "tourIntroReview": "📋 Thông Tin Chương Trình",
+  "tourProgramDescription": "📖 Giới thiệu chung",
+  "tourScheduleHeading": "🗓 Lịch Trình Chi Tiết",
+  "tourScheduleDay": "Ngày {day}",
+  "@tourScheduleDay": {
+    "placeholders": {
+      "day": { "type": "int" }
+    }
+  },
+  "tourScheduleNote": "📌 Lưu ý:",
+  "tourScheduleNoData": "Chưa có lịch trình — admin đang cập nhật.",
+  "tourSubDestinations": "📂 Danh lục các vùng",
+  "tourTravelGuide": "💡 Hướng dẫn du lịch",
+  "tourTopPlaces": "📍 Các địa điểm nổi bật",
+  "tourAiSummary": "✨ AI tóm tắt review",
+  "tourAiSummaryBody": "Khách yêu thích hướng dẫn viên thân thiện, lịch trình rõ ràng và điểm đến đẹp. Nên chuẩn bị giày đi bộ và áo khoác nhẹ.",
+  "tourItineraryHeading": "H2: Lịch trình nổi bật",
+  "tourCustomerReviews": "Đánh giá từ khách hàng",
+  "tourWriteReview": "Viết đánh giá của bạn",
+  "tourRatingOutOf5": "{rating}/5 sao",
+  "@tourRatingOutOf5": {
+    "placeholders": {
+      "rating": { "type": "int" }
+    }
+  },
+  "tourReviewHint": "Chia sẻ trải nghiệm tour của bạn...",
+  "tourSubmitReview": "Gửi đánh giá",
+  "tourSelectStarRating": "Chọn số sao đánh giá",
+  "tourStarCount": "{count} sao",
+  "@tourStarCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "tourContactModalTitle": "Để lại số điện thoại để nhận cuộc gọi tư vấn miễn phí!",
+  "tourContactNameLabel": "Họ tên *",
+  "tourContactNameHint": "Họ tên",
+  "tourContactPhoneLabel": "Số điện thoại *",
+  "tourContactPhoneHint": "Số điện thoại",
+  "tourRecaptchaLabel": "Tôi không phải người máy",
+  "tourSend": "Gửi",
+
+  "adminNavOverview": "Tổng quan",
+  "adminNavOperators": "Operators",
+  "adminNavUsers": "Users",
+  "adminNavTours": "Tours",
+  "adminNavBookings": "Bookings",
+  "adminNavDisputes": "Disputes",
+  "adminNavPayouts": "Payouts",
+  "adminNavImageUpload": "Upload ảnh",
+  "adminNavAiConsole": "AI Console",
+  "adminNavSeo": "SEO Manager",
+  "adminNavAudit": "Audit",
+  "adminProdTag": "⚠ PROD",
+  "adminBackToApp": "Về app",
+  "adminSearchHint": "Tìm operator, tour, user...",
+  "adminOverviewPlatform": "Tổng quan platform",
+  "adminOverviewLastUpdated": "Cập nhật 2 phút trước · 30 ngày qua",
+  "adminKpiGmv": "GMV THÁNG",
+  "adminKpiBookings": "BOOKINGS",
+  "adminKpiMau": "MAU",
+  "adminKpiDisputeRate": "DISPUTE RATE",
+  "adminKycPending": "⏳ Chờ duyệt KYC",
+  "adminKycNewCount": "{count} mới",
+  "@adminKycNewCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "adminInspect": "Soi kỹ",
+  "adminApprove": "Duyệt",
+
+  "adminImageUploadTitle": "Quản lý Upload Hình Ảnh",
+  "adminImageUploadNow": "Tải lên ngay",
+  "adminImageUploadHeading": "Chọn hình ảnh cho các Tour & Vùng du lịch",
+  "adminImageUploadDescription": "Hình ảnh sau khi tải lên sẽ có link URL để bạn gắn vào bài viết review và hướng dẫn.",
+  "adminImageUploadSuccess": "Thành công! Đã tải lên {count} ảnh.",
+  "@adminImageUploadSuccess": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "adminImageUploadError": "Lỗi: {error}",
+  "@adminImageUploadError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "adminImagePickFromDevice": "Chọn ảnh từ máy tính",
+
+  "themeCustomizerTitle": "Tùy biến giao diện",
+  "themeCustomizerReset": "Reset mặc định",
+  "themeCustomizerResetDone": "Đã reset về mặc định",
+  "themeCustomizerApplyEverywhere": "Đổi 1 lần — áp dụng cho cả User App, Admin và Web.",
+  "themePrimaryColor": "Màu chủ đạo",
+  "themeRgbAdjust": "Tinh chỉnh màu (RGB)",
+  "themeModeTitle": "Chế độ sáng / tối",
+  "themeModeLight": "Sáng",
+  "themeModeDark": "Tối",
+  "themeModeSystem": "Hệ thống",
+  "themeTextContrast": "Độ tương phản chữ",
+  "themeHighContrast": "Chữ tương phản cao",
+  "themeHighContrastHint": "Dùng đen/trắng tuyệt đối thay vì xám — dễ đọc hơn",
+  "themeFontScale": "Cỡ chữ",
+  "themeDensity": "Mật độ giao diện",
+  "themeDensityCompact": "Compact",
+  "themeDensityStandard": "Chuẩn",
+  "themeDensityComfortable": "Thoáng",
+  "themePreviewTitle": "Xem trước",
+  "themePreviewMetricLabel": "GMV tháng",
+  "themePreviewApprove": "Duyệt",
+  "themePreviewReject": "Từ chối",
+
+  "adminSeoSaved": "✅ Đã lưu SEO cho route: {route}",
+  "@adminSeoSaved": {
+    "placeholders": {
+      "route": { "type": "String" }
+    }
+  },
+  "adminSeoScore": "Score: {score}/100",
+  "@adminSeoScore": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "adminSeoPageTitle": "Page Title (Meta tag)",
+  "adminSeoTitleHint": "30-60 ký tự ({length})",
+  "@adminSeoTitleHint": {
+    "placeholders": {
+      "length": { "type": "int" }
+    }
+  },
+  "adminSeoTitleHelper": "Hiển thị trên tab trình duyệt & kết quả tìm kiếm",
+  "adminSeoMetaDescription": "Meta Description",
+  "adminSeoDescriptionHint": "120-160 ký tự ({length})",
+  "@adminSeoDescriptionHint": {
+    "placeholders": {
+      "length": { "type": "int" }
+    }
+  },
+  "adminSeoDescriptionHelper": "Mô tả nội dung dưới title trên Google",
+  "adminSeoKeywords": "Keywords (từ khóa)",
+  "adminSeoKeywordsHint": "Cách nhau bằng dấu phẩy",
+  "adminSeoKeywordsHelper": "Meta keywords (ít quan trọng nhưng vẫn tốt)",
+  "adminSeoH1": "H1 Heading (Rất quan trọng)",
+  "adminSeoH1Hint": "Tiêu đề chính của trang (chỉ 1 H1)",
+  "adminSeoH1Helper": "Phải khác với title tag",
+  "adminSeoH2": "H2 Headings (Sections)",
+  "adminSeoH2InputHint": "Nhập H2 heading",
+  "adminSeoCanonical": "Canonical URL",
+  "adminSeoCanonicalHelper": "Tránh duplicate content",
+  "adminSeoOgImage": "OG Image URL (Social Media)",
+  "adminSeoOgImageHelper": "Ảnh hiển thị khi share trên Facebook, etc.",
+  "adminSeoJsonLd": "JSON-LD Structured Data",
+  "adminSeoJsonLdHelper": "Schema.org markup cho Rich Snippets",
+  "adminSeoNoindexTitle": "🚫 Robots: NOINDEX",
+  "adminSeoNoindexSubtitle": "Không index trang này trên Google",
+  "adminSeoPreviewTitle": "🔍 Google Search Result Preview",
+  "adminSeoCanonicalDefault": "https://travelreview.vn",
+  "adminSeoMetaDescriptionPlaceholder": "Meta description...",
+  "adminSeoSaveButton": "💾 Lưu SEO Config",
+
   "legalTitle": "Pháp lý & Chính sách",
   "legalIntro": "Các tài liệu sau áp dụng khi bạn sử dụng TravelReview. Vui lòng đọc kỹ trước khi tiếp tục.",
   "legalPrivacy": "Chính sách Quyền riêng tư",
@@ -57,6 +308,15 @@
       "date": { "type": "String" }
     }
   },
-  "legalAndPolicies": "Pháp lý & Chính sách"
+  "legalAndPolicies": "Pháp lý & Chính sách",
+
+  "aiChatTitle": "🤖 Hỏi AI về tour này",
+  "aiChatSubtitle": "Đặt câu hỏi để được tư vấn ngay",
+  "aiChatInputHint": "Nhập câu hỏi về tour...",
+  "aiChatSend": "Gửi",
+  "aiChatWelcome": "Xin chào! Tôi là trợ lý AI của TravelReview 👋\nBạn có thể hỏi tôi về lịch trình, chi phí, những gì cần mang theo và nhiều hơn nữa.",
+  "aiChatTyping": "AI đang trả lời...",
+  "aiChatErrorRetry": "Có lỗi xảy ra. Nhấn để thử lại.",
+  "aiChatQuickQuestions": "Câu hỏi thường gặp"
 }
 

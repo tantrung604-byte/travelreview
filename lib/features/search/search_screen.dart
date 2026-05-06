@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../l10n/gen/app_localizations.dart';
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -19,21 +21,23 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppL10n.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Tìm kiếm tour')),
+      appBar: AppBar(title: Text(l.searchTitle)),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
           TextField(
             controller: _controller,
             autofocus: true,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
-              hintText: 'Đà Nẵng, Sapa, Phú Quốc...',
+              hintText: l.searchHint,
             ),
           ),
           const SizedBox(height: 20),
-          const Text('Gợi ý nhanh', style: TextStyle(fontWeight: FontWeight.w800)),
+          Text(l.searchQuickSuggestions,
+              style: const TextStyle(fontWeight: FontWeight.w800)),
           const SizedBox(height: 8),
           for (final item in const ['Đà Nẵng', 'Sapa', 'Phú Quốc', 'Đà Lạt'])
             ListTile(

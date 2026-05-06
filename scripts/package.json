@@ -1,0 +1,13 @@
+{
+  "name": "travelreview-seed-tools",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "seed:tours:dry": "node ./seed_tours_firestore.mjs --dry-run",
+    "seed:tours": "node ./seed_tours_firestore.mjs --apply"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.5.0"
+  }
+}
+

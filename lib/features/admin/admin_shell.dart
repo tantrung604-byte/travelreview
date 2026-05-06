@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_theme_controller.dart';
+import '../../l10n/gen/app_localizations.dart';
+import 'tour_cms_screen.dart';
 import 'seo_manager_screen.dart';
-import 'image_upload_manager_screen.dart'; // Thêm mới
+import 'image_upload_manager_screen.dart';
+import 'admin_user_management_screen.dart';
 import 'widgets/theme_customizer_drawer.dart';
 
 /// Shell Admin Portal — chia sẻ theme với User App qua `appThemeControllerProvider`.
@@ -42,6 +45,7 @@ class _AdminScaffoldState extends ConsumerState<_AdminScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppL10n.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
@@ -76,7 +80,7 @@ class _AdminScaffoldState extends ConsumerState<_AdminScaffold> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
         icon: const Icon(Icons.palette_outlined),
-        label: const Text('Đổi giao diện'),
+        label: Text(l.themeCustomizerTitle),
       ),
     );
   }
@@ -98,18 +102,19 @@ class _NavRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = const [
-      (Icons.dashboard_outlined, 'Tổng quan'),
-      (Icons.business_outlined, 'Operators'),
-      (Icons.people_outline, 'Users'),
-      (Icons.map_outlined, 'Tours'),
-      (Icons.event_note_outlined, 'Bookings'),
-      (Icons.gavel_outlined, 'Disputes'),
-      (Icons.payments_outlined, 'Payouts'),
-      (Icons.image_outlined, 'Upload Ảnh'), // Thêm mới item mục số 7
-      (Icons.code_outlined, 'AI Console'),
-      (Icons.search_outlined, '🔍 SEO Manager'),
-      (Icons.history, 'Audit'),
+    final l = AppL10n.of(context);
+    final items = [
+      (Icons.dashboard_outlined, l.adminNavOverview),
+      (Icons.business_outlined, l.adminNavOperators),
+      (Icons.people_outline, l.adminNavUsers),
+      (Icons.map_outlined, l.adminNavTours),
+      (Icons.event_note_outlined, l.adminNavBookings),
+      (Icons.gavel_outlined, l.adminNavDisputes),
+      (Icons.payments_outlined, l.adminNavPayouts),
+      (Icons.image_outlined, l.adminNavImageUpload),
+      (Icons.code_outlined, l.adminNavAiConsole),
+      (Icons.search_outlined, l.adminNavSeo),
+      (Icons.history, l.adminNavAudit),
     ];
 
     return Container(
@@ -138,12 +143,12 @@ class _NavRail extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Admin',
+                    Text(l.homeAdminLabel,
                         style: TextStyle(fontWeight: FontWeight.w800)),
-                    Text('⚠ PROD',
+                    Text(l.adminProdTag,
                         style: TextStyle(
                             fontSize: 10,
                             color: Color(0xFFEF4444),
@@ -215,6 +220,7 @@ class _TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppL10n.of(context);
     final theme = Theme.of(context);
     return Container(
       height: 60,
@@ -223,15 +229,14 @@ class _TopBar extends StatelessWidget {
       child: Row(
         children: [
           IconButton(
-            tooltip: 'Về app',
+            tooltip: l.adminBackToApp,
             icon: const Icon(Icons.arrow_back),
             onPressed: onBackHome,
           ),
           const SizedBox(width: 4),
-          Text('Admin', style: TextStyle(color: theme.colorScheme.onSurface.withValues(alpha: 0.6))),
+          Text(l.homeAdminLabel, style: TextStyle(color: theme.colorScheme.onSurface.withValues(alpha: 0.6))),
           const Text(' / '),
-          const Text('Tổng quan',
-              style: TextStyle(fontWeight: FontWeight.w800)),
+          Text(l.adminNavOverview, style: const TextStyle(fontWeight: FontWeight.w800)),
           const Spacer(),
           // Search
           SizedBox(
@@ -240,7 +245,7 @@ class _TopBar extends StatelessWidget {
             child: TextField(
               decoration: InputDecoration(
                 isDense: true,
-                hintText: 'Tìm operator, tour, user...',
+                hintText: l.adminSearchHint,
                 prefixIcon: const Icon(Icons.search, size: 18),
                 suffixIcon: Padding(
                   padding: const EdgeInsets.all(4),
@@ -265,7 +270,7 @@ class _TopBar extends StatelessWidget {
           ),
           const SizedBox(width: 16),
           IconButton(
-            tooltip: 'Tùy biến giao diện',
+            tooltip: l.themeCustomizerTitle,
             icon: const Icon(Icons.palette_outlined),
             onPressed: onOpenCustomizer,
           ),
@@ -317,9 +322,13 @@ class _DashboardBody extends StatelessWidget {
   Widget build(BuildContext context) {
     // Route to different pages based on navIdx
     switch (navIdx) {
+      case 2: // Users
+        return const AdminUserManagementScreen();
+      case 3: // Tours
+        return const TourCmsScreen();
       case 7: // Upload Ảnh
         return const ImageUploadManagerScreen();
-      case 9: // SEO Manager (Cập nhật từ 8 lên 9 vì thêm Upload Ảnh ở trên)
+      case 9: // SEO Manager
         return const SeoManagerScreen(routeKey: '/');
       default:
         return _DefaultDashboard();
@@ -330,17 +339,18 @@ class _DashboardBody extends StatelessWidget {
 class _DefaultDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l = AppL10n.of(context);
     final theme = Theme.of(context);
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Tổng quan platform',
+          Text(l.adminOverviewPlatform,
               style: theme.textTheme.headlineSmall
                   ?.copyWith(fontWeight: FontWeight.w900)),
           const SizedBox(height: 4),
-          Text('Cập nhật 2 phút trước · 30 ngày qua',
+          Text(l.adminOverviewLastUpdated,
               style: TextStyle(
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                   fontSize: 12)),
@@ -356,11 +366,11 @@ class _DefaultDashboard extends StatelessWidget {
               mainAxisSpacing: 16,
               crossAxisSpacing: 16,
               childAspectRatio: 2.1,
-              children: const [
-                _KpiCard(label: 'GMV THÁNG', value: '2.41B', delta: '+18%', up: true),
-                _KpiCard(label: 'BOOKINGS', value: '8.214', delta: '+22%', up: true),
-                _KpiCard(label: 'MAU', value: '142k', delta: '+9%', up: true),
-                _KpiCard(label: 'DISPUTE RATE', value: '0.42%', delta: '+0.05%', up: false),
+              children: [
+                _KpiCard(label: l.adminKpiGmv, value: '2.41B', delta: '+18%', up: true),
+                _KpiCard(label: l.adminKpiBookings, value: '8.214', delta: '+22%', up: true),
+                _KpiCard(label: l.adminKpiMau, value: '142k', delta: '+9%', up: true),
+                _KpiCard(label: l.adminKpiDisputeRate, value: '0.42%', delta: '+0.05%', up: false),
               ],
             );
           }),
@@ -374,7 +384,7 @@ class _DefaultDashboard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('⏳ Chờ duyệt KYC',
+                       Text(l.adminKycPending,
                           style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.w800)),
                       const SizedBox(width: 8),
@@ -385,7 +395,7 @@ class _DefaultDashboard extends StatelessWidget {
                           color: const Color(0xFFEF4444),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Text('12 mới',
+                         child: Text(l.adminKycNewCount(12),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 11,
@@ -556,12 +566,12 @@ class _OperatorRow extends StatelessWidget {
                 foregroundColor: const Color(0xFFEF4444),
                 side: const BorderSide(color: Color(0xFFEF4444)),
               ),
-              child: const Text('Soi kỹ'),
+              child: Text(AppL10n.of(context).adminInspect),
             )
           else
             FilledButton(
               onPressed: () {},
-              child: const Text('Duyệt'),
+              child: Text(AppL10n.of(context).adminApprove),
             ),
         ],
       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../l10n/gen/app_localizations.dart';
+
 class BookingScreen extends StatelessWidget {
   const BookingScreen({super.key, required this.tourId});
 
@@ -8,40 +10,47 @@ class BookingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppL10n.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Đặt tour')),
+      appBar: AppBar(title: Text(l.bookingTitle)),
       body: Stepper(
         controlsBuilder: (context, details) => Padding(
           padding: const EdgeInsets.only(top: 16),
           child: Row(
             children: [
-              FilledButton(onPressed: details.onStepContinue, child: const Text('Tiếp tục')),
+              FilledButton(
+                onPressed: details.onStepContinue,
+                child: Text(l.bookingContinue),
+              ),
               const SizedBox(width: 8),
-              TextButton(onPressed: details.onStepCancel, child: const Text('Quay lại')),
+              TextButton(
+                onPressed: details.onStepCancel,
+                child: Text(l.bookingBack),
+              ),
             ],
           ),
         ),
         steps: [
           Step(
-            title: const Text('Ngày & số khách'),
-            content: Text('Tour: $tourId\nChọn ngày khởi hành và số lượng khách.'),
+            title: Text(l.bookingStepDateGuests),
+            content: Text(l.bookingStepDateGuestsContent(tourId)),
             isActive: true,
           ),
-          const Step(
-            title: Text('Thông tin liên hệ'),
-            content: Text('Điền email, số điện thoại, ghi chú đặc biệt.'),
+          Step(
+            title: Text(l.bookingStepContact),
+            content: Text(l.bookingStepContactContent),
           ),
           Step(
-            title: const Text('Thanh toán'),
+            title: Text(l.bookingStepPayment),
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text('Áp voucher và chọn phương thức thanh toán.'),
+                Text(l.bookingStepPaymentContent),
                 const SizedBox(height: 12),
                 FilledButton.icon(
                   onPressed: () => context.go('/discover'),
                   icon: const Icon(Icons.check_circle_outline),
-                  label: const Text('Hoàn tất demo'),
+                  label: Text(l.bookingCompleteDemo),
                 ),
               ],
             ),

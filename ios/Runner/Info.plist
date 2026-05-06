@@ -53,6 +53,22 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<!-- ===== Google Sign-In URL scheme =====
+	     Mở ios/Runner/GoogleService-Info.plist, copy giá trị REVERSED_CLIENT_ID
+	     và DÁN ĐÈ vào string bên dưới (xoá dòng PASTE_REVERSED_CLIENT_ID_HERE).
+	     Ví dụ: com.googleusercontent.apps.123456789-abcdefg
+	-->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>PASTE_REVERSED_CLIENT_ID_HERE</string>
+			</array>
+		</dict>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

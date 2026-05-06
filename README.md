@@ -1,5 +1,7 @@
 # TravelReview App
 
+[![CI: Deploy to GitHub Pages](https://github.com/tantrung604-byte/travelreview/actions/workflows/deploy_web.yml/badge.svg)](https://github.com/tantrung604-byte/travelreview/actions/workflows/deploy_web.yml)
+
 Ứng dụng Flutter (Android/iOS/Web) sử dụng **Firebase** + **Riverpod 3.x**.
 
 Hiện project đã có:

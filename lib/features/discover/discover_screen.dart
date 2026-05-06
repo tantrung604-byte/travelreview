@@ -1,33 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+
+import '../content/travel_content.dart';
+import '../../l10n/gen/app_localizations.dart';
 
 /// User-facing Discover page — placeholder production route.
 /// TODO: replace mock cards with Firestore-backed tour feed.
 class DiscoverScreen extends StatelessWidget {
   const DiscoverScreen({super.key});
 
-  static const sampleTours = [
-    ('da-nang-ba-na-hills', 'Đà Nẵng — Bà Nà Hills 3N2Đ', '1.290.000đ', '★ 4.9'),
-    ('sapa-fansipan', 'Sapa — Fansipan 2N1Đ', '1.890.000đ', '★ 4.8'),
-    ('phu-quoc-hon-thom', 'Phú Quốc — Hòn Thơm 4N3Đ', '2.490.000đ', '★ 4.9'),
-  ];
-
-  static const worldDestinations = [
-    ('trung-quoc', 'Trung Quốc', 'Vạn Lý Trường Thành, Cửu Trại Câu...', '🇨🇳'),
-    ('nhat-ban', 'Nhật Bản', 'Núi Phú Sĩ, Tokyo, Kyoto...', '🇯🇵'),
-    ('han-quoc', 'Hàn Quốc', 'Seoul, Đảo Jeju, Nami...', '🇰🇷'),
-    ('thail-lan', 'Thái Lan', 'Bangkok, Phuket, Pattaya...', '🇹🇭'),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l = AppL10n.of(context);
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Khám phá'),
+        title: Text(l.navHome),
         actions: [
           IconButton(
-            tooltip: 'Tìm kiếm',
+            tooltip: l.navSearch,
             icon: const Icon(Icons.search),
             onPressed: () => context.go('/search'),
           ),
@@ -37,16 +29,16 @@ class DiscoverScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         children: [
           Text(
-            'Bạn muốn đi đâu hôm nay?',
+            l.discoverHeroTitle,
             style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900),
           ),
           const SizedBox(height: 12),
           TextField(
             readOnly: true,
             onTap: () => context.go('/search'),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               prefixIcon: Icon(Icons.travel_explore),
-              hintText: 'Tìm tour, địa điểm, trải nghiệm...',
+              hintText: l.discoverSearchHint,
             ),
           ),
           const SizedBox(height: 24),
@@ -54,32 +46,39 @@ class DiscoverScreen extends StatelessWidget {
             spacing: 10,
             runSpacing: 10,
             children: const [
-              Chip(label: Text('🏖 Biển')),
-              Chip(label: Text('⛰ Núi')),
-              Chip(label: Text('🍜 Ẩm thực')),
+              Chip(label: Text('🏖 Beaches')),
+              Chip(label: Text('⛰ Mountains')),
+              Chip(label: Text('🍜 Food')),
               Chip(label: Text('🥾 Trekking')),
             ],
           ),
           const SizedBox(height: 28),
-          Text('🔥 Trending tuần này', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
+          Text(l.discoverTrending,
+              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
           const SizedBox(height: 12),
-          for (final tour in sampleTours)
+          for (final tour in seededTours)
             Card(
               margin: const EdgeInsets.only(bottom: 14),
               child: ListTile(
                 contentPadding: const EdgeInsets.all(16),
-                leading: CircleAvatar(
-                  backgroundColor: theme.colorScheme.primary,
-                  child: Icon(Icons.landscape, color: theme.colorScheme.onPrimary),
+                leading: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: SvgPicture.asset(
+                    tour.imageAsset,
+                    width: 54,
+                    height: 54,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                title: Text(tour.$2, style: const TextStyle(fontWeight: FontWeight.w800)),
-                subtitle: Text('${tour.$4} · từ ${tour.$3}'),
+                title: Text(tour.title, style: const TextStyle(fontWeight: FontWeight.w800)),
+                subtitle: Text('★ ${tour.rating} · ${l.discoverFromPrice(tour.price)}'),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: () => context.go('/tour/${tour.$1}'),
+                onTap: () => context.go('/tour/${tour.id}'),
               ),
             ),
           const SizedBox(height: 28),
-          Text('🌍 Địa Điểm Ăn Chơi Trên Thế Giới', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
+          Text(l.discoverWorldTitle,
+              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
           const SizedBox(height: 12),
           GridView.builder(
             shrinkWrap: true,
@@ -90,23 +89,21 @@ class DiscoverScreen extends StatelessWidget {
               mainAxisSpacing: 10,
               childAspectRatio: 0.8,
             ),
-            itemCount: worldDestinations.length,
+            itemCount: seededWorldDestinations.length,
             itemBuilder: (context, index) {
-              final dest = worldDestinations[index];
+              final dest = seededWorldDestinations[index];
               return Card(
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
-                  onTap: () => context.go('/tour/${dest.$1}'),
+                  onTap: () => context.go('/tour/${dest.id}'),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: Container(
+                        child: SvgPicture.asset(
+                          dest.imageAsset,
                           width: double.infinity,
-                          color: theme.colorScheme.primaryContainer,
-                          child: Center(
-                            child: Text(dest.$4, style: const TextStyle(fontSize: 48)),
-                          ),
+                          fit: BoxFit.cover,
                         ),
                       ),
                       Padding(
@@ -114,10 +111,10 @@ class DiscoverScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(dest.$2, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
+                            Text(dest.country, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16)),
                             const SizedBox(height: 4),
                             Text(
-                              dest.$3,
+                              dest.tagline,
                               style: theme.textTheme.bodySmall,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,

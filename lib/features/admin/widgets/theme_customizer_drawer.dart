@@ -1,12 +1,14 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme_controller.dart';
+import '../../../l10n/gen/app_localizations.dart';
 /// Drawer tùy biến theme — DÙNG CHUNG cho User App + Admin Portal.
 /// Mọi thay đổi áp dụng global qua appThemeControllerProvider và auto-persist.
 class ThemeCustomizerDrawer extends ConsumerWidget {
   const ThemeCustomizerDrawer({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppL10n.of(context);
     final s = ref.watch(appThemeControllerProvider);
     final ctrl = ref.read(appThemeControllerProvider.notifier);
     final theme = Theme.of(context);
@@ -23,16 +25,16 @@ class ThemeCustomizerDrawer extends ConsumerWidget {
                   Icon(Icons.palette_outlined, color: theme.colorScheme.primary),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Text('Tùy biến giao diện',
+                    child: Text(l.themeCustomizerTitle,
                         style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
                   ),
                   IconButton(
-                    tooltip: 'Reset mặc định',
+                    tooltip: l.themeCustomizerReset,
                     icon: const Icon(Icons.restart_alt),
                     onPressed: () {
                       ctrl.reset();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Đã reset về mặc định')),
+                        SnackBar(content: Text(l.themeCustomizerResetDone)),
                       );
                     },
                   ),
@@ -61,7 +63,7 @@ class ThemeCustomizerDrawer extends ConsumerWidget {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            'Đổi 1 lần — áp dụng cho cả User App, Admin và Web.',
+                            l.themeCustomizerApplyEverywhere,
                             style: TextStyle(
                               fontSize: 12,
                               color: theme.colorScheme.onSurface.withValues(alpha: 0.85),
@@ -72,7 +74,7 @@ class ThemeCustomizerDrawer extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const _SectionTitle('Màu chủ đạo'),
+                  _SectionTitle(l.themePrimaryColor),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 10,
@@ -88,33 +90,33 @@ class ThemeCustomizerDrawer extends ConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  const _SectionTitle('Tinh chỉnh màu (RGB)'),
+                  _SectionTitle(l.themeRgbAdjust),
                   const SizedBox(height: 8),
                   _RgbSliders(color: s.primary, onChanged: ctrl.setPrimary),
                   const SizedBox(height: 24),
-                  const _SectionTitle('Chế độ sáng / tối'),
+                  _SectionTitle(l.themeModeTitle),
                   const SizedBox(height: 8),
                   SegmentedButton<ThemeMode>(
-                    segments: const [
-                      ButtonSegment(value: ThemeMode.light, label: Text('Sáng'), icon: Icon(Icons.light_mode_outlined)),
-                      ButtonSegment(value: ThemeMode.dark, label: Text('Tối'), icon: Icon(Icons.dark_mode_outlined)),
-                      ButtonSegment(value: ThemeMode.system, label: Text('Hệ thống'), icon: Icon(Icons.brightness_auto_outlined)),
+                    segments: [
+                      ButtonSegment(value: ThemeMode.light, label: Text(l.themeModeLight), icon: Icon(Icons.light_mode_outlined)),
+                      ButtonSegment(value: ThemeMode.dark, label: Text(l.themeModeDark), icon: Icon(Icons.dark_mode_outlined)),
+                      ButtonSegment(value: ThemeMode.system, label: Text(l.themeModeSystem), icon: Icon(Icons.brightness_auto_outlined)),
                     ],
                     selected: {s.themeMode},
                     onSelectionChanged: (v) => ctrl.setThemeMode(v.first),
                   ),
                   const SizedBox(height: 20),
-                  const _SectionTitle('Độ tương phản chữ'),
+                  _SectionTitle(l.themeTextContrast),
                   const SizedBox(height: 4),
                   SwitchListTile.adaptive(
                     value: s.highContrast,
                     onChanged: ctrl.setHighContrast,
-                    title: const Text('Chữ tương phản cao'),
-                    subtitle: const Text('Dùng đen/trắng tuyệt đối thay vì xám — dễ đọc hơn'),
+                    title: Text(l.themeHighContrast),
+                    subtitle: Text(l.themeHighContrastHint),
                     contentPadding: EdgeInsets.zero,
                   ),
                   const SizedBox(height: 12),
-                  const _SectionTitle('Cỡ chữ'),
+                  _SectionTitle(l.themeFontScale),
                   Row(
                     children: [
                       const Text('A', style: TextStyle(fontSize: 12)),
@@ -132,13 +134,13 @@ class ThemeCustomizerDrawer extends ConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  const _SectionTitle('Mật độ giao diện'),
+                  _SectionTitle(l.themeDensity),
                   const SizedBox(height: 8),
                   SegmentedButton<UiDensity>(
-                    segments: const [
-                      ButtonSegment(value: UiDensity.compact, label: Text('Compact'), icon: Icon(Icons.density_small)),
-                      ButtonSegment(value: UiDensity.standard, label: Text('Chuẩn'), icon: Icon(Icons.density_medium)),
-                      ButtonSegment(value: UiDensity.comfortable, label: Text('Thoáng'), icon: Icon(Icons.density_large)),
+                    segments: [
+                      ButtonSegment(value: UiDensity.compact, label: Text(l.themeDensityCompact), icon: Icon(Icons.density_small)),
+                      ButtonSegment(value: UiDensity.standard, label: Text(l.themeDensityStandard), icon: Icon(Icons.density_medium)),
+                      ButtonSegment(value: UiDensity.comfortable, label: Text(l.themeDensityComfortable), icon: Icon(Icons.density_large)),
                     ],
                     selected: {s.density},
                     onSelectionChanged: (v) => ctrl.setDensity(v.first),
@@ -269,6 +271,7 @@ class _PreviewCard extends StatelessWidget {
   final AppThemeState state;
   @override
   Widget build(BuildContext context) {
+    final l = AppL10n.of(context);
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.all(16),
@@ -280,18 +283,18 @@ class _PreviewCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Xem trước', style: theme.textTheme.labelSmall),
+          Text(l.themePreviewTitle, style: theme.textTheme.labelSmall),
           const SizedBox(height: 8),
-          Text('GMV tháng',
+          Text(l.themePreviewMetricLabel,
               style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.6))),
           Text('2.41B', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900)),
           const SizedBox(height: 12),
           Row(
             children: [
-              FilledButton(onPressed: () {}, child: const Text('Duyệt')),
+              FilledButton(onPressed: () {}, child: Text(l.themePreviewApprove)),
               const SizedBox(width: 8),
-              OutlinedButton(onPressed: () {}, child: const Text('Từ chối')),
+              OutlinedButton(onPressed: () {}, child: Text(l.themePreviewReject)),
             ],
           ),
         ],

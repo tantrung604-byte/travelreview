@@ -33,6 +33,257 @@
     }
   },
 
+  "searchTitle": "Search tours",
+  "searchHint": "Da Nang, Sapa, Phu Quoc...",
+  "searchQuickSuggestions": "Quick suggestions",
+
+  "discoverHeroTitle": "Where do you want to go today?",
+  "discoverSearchHint": "Search tours, destinations, experiences...",
+  "discoverTrending": "🔥 Trending this week",
+  "discoverFromPrice": "from {price}",
+  "@discoverFromPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "discoverWorldTitle": "🌍 World destinations",
+
+  "bookingTitle": "Book tour",
+  "bookingContinue": "Continue",
+  "bookingBack": "Back",
+  "bookingStepDateGuests": "Date & guests",
+  "bookingStepDateGuestsContent": "Tour: {tourId}\nSelect departure date and number of guests.",
+  "@bookingStepDateGuestsContent": {
+    "placeholders": {
+      "tourId": { "type": "String" }
+    }
+  },
+  "bookingStepContact": "Contact details",
+  "bookingStepContactContent": "Enter email, phone number, and special notes.",
+  "bookingStepPayment": "Payment",
+  "bookingStepPaymentContent": "Apply voucher and choose a payment method.",
+  "bookingCompleteDemo": "Complete demo",
+
+  "notFoundTitle": "Page not found",
+  "notFoundRouteLabel": "Route does not exist:",
+  "notFoundGoHome": "Go home",
+
+  "homeAdminLabel": "Admin",
+  "homeCustomizeTheme": "Customize theme",
+  "homeExploreByInterestTitle": "Explore by interest",
+  "homeExploreByInterestSubtitle": "Quick picks for your next trip",
+  "homeViewAll": "View all",
+  "homeTrendingTitle": "Trending this week",
+  "homeTrendingSubtitle": "Loved by Vietnamese travellers",
+  "homeSeeTours": "See tours",
+  "homeWorldPlacesTitle": "World places to explore",
+  "homeWorldPlacesSubtitle": "Choose a country, see attractions, and contact admin to buy tickets",
+  "homeContactAdmin": "Contact admin",
+  "homeHeroBadge": "TRAVELREVIEW DEALS 2026",
+  "homeHeroTitle": "Discover trips, tickets, and honest reviews.",
+  "homeHeroSubtitle": "A Klook-inspired travel marketplace for Vietnam: compare tours, read real reviews, and book experiences in minutes.",
+  "homeMiniStatTours": "Tours",
+  "homeMiniStatReviews": "Reviews",
+  "homeMiniStatVerifiedOperators": "Verified operators",
+  "homeSearchDestination": "Destination",
+  "homeSearchDestinationValue": "Da Nang, Sapa...",
+  "homeSearchDate": "Date",
+  "homeSearchAnytime": "Anytime",
+  "homeSearchGuests": "Guests",
+  "homeSearchGuestsValue": "2 adults",
+  "homePromoTitle": "Flash Deals",
+  "homePromoHeadline": "Save up to 35% on selected experiences this week.",
+  "homePromoSubtitle": "Limited seats, verified operators, instant confirmation.",
+  "homeViewDetails": "View details",
+  "homeTopAttractions": "Top attractions",
+  "homeContactAdminHelp": "Contact admin for ticket consultation, family combos, opening hours, group discounts, and refund/cancel conditions.",
+  "homeViewReviewGuide": "View review & guide",
+  "homeTrustVerifiedOperators": "Verified operators",
+  "homeTrustSecureBooking": "Secure booking",
+  "homeTrustSupport247": "24/7 support",
+  "homeTrustRealReviews": "Real reviews",
+
+  "tourReviewEmptyError": "Please enter your review content",
+  "tourReviewThanks": "Thank you for your review!",
+  "tourContactMissingInfo": "Please enter full name and phone number",
+  "tourContactOpenEmailError": "Cannot open an email app on this device",
+  "tourFallbackTitle": "Tour {id}",
+  "@tourFallbackTitle": {
+    "placeholders": {
+      "id": { "type": "String" }
+    }
+  },
+  "tourUpdating": "Updating...",
+  "tourContact": "Contact",
+  "tourRatingLine": "{avg} · {count} reviews · 3 days 2 nights",
+  "@tourRatingLine": {
+    "placeholders": {
+      "avg": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "tourIntroReview": "📋 Tour Programme",
+  "tourProgramDescription": "📖 General Overview",
+  "tourScheduleHeading": "🗓 Detailed Itinerary",
+  "tourScheduleDay": "Day {day}",
+  "@tourScheduleDay": {
+    "placeholders": {
+      "day": { "type": "int" }
+    }
+  },
+  "tourScheduleNote": "📌 Note:",
+  "tourScheduleNoData": "Itinerary not yet available — admin is updating.",
+  "tourSubDestinations": "📂 Sub-destinations",
+  "tourTravelGuide": "💡 Travel guide",
+  "tourTopPlaces": "📍 Top places",
+  "tourAiSummary": "✨ AI review summary",
+  "tourAiSummaryBody": "Travelers love friendly guides, clear itineraries, and beautiful destinations. Bring walking shoes and a light jacket.",
+  "tourItineraryHeading": "H2: Highlight itinerary",
+  "tourCustomerReviews": "Customer reviews",
+  "tourWriteReview": "Write your review",
+  "tourRatingOutOf5": "{rating}/5 stars",
+  "@tourRatingOutOf5": {
+    "placeholders": {
+      "rating": { "type": "int" }
+    }
+  },
+  "tourReviewHint": "Share your tour experience...",
+  "tourSubmitReview": "Submit review",
+  "tourSelectStarRating": "Select star rating",
+  "tourStarCount": "{count} stars",
+  "@tourStarCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "tourContactModalTitle": "Leave your phone number for a free consultation call!",
+  "tourContactNameLabel": "Full name *",
+  "tourContactNameHint": "Full name",
+  "tourContactPhoneLabel": "Phone number *",
+  "tourContactPhoneHint": "Phone number",
+  "tourRecaptchaLabel": "I'm not a robot",
+  "tourSend": "Send",
+
+  "adminNavOverview": "Overview",
+  "adminNavOperators": "Operators",
+  "adminNavUsers": "Users",
+  "adminNavTours": "Tours",
+  "adminNavBookings": "Bookings",
+  "adminNavDisputes": "Disputes",
+  "adminNavPayouts": "Payouts",
+  "adminNavImageUpload": "Image upload",
+  "adminNavAiConsole": "AI Console",
+  "adminNavSeo": "SEO Manager",
+  "adminNavAudit": "Audit",
+  "adminProdTag": "⚠ PROD",
+  "adminBackToApp": "Back to app",
+  "adminSearchHint": "Search operator, tour, user...",
+  "adminOverviewPlatform": "Platform overview",
+  "adminOverviewLastUpdated": "Updated 2 minutes ago · Last 30 days",
+  "adminKpiGmv": "MONTHLY GMV",
+  "adminKpiBookings": "BOOKINGS",
+  "adminKpiMau": "MAU",
+  "adminKpiDisputeRate": "DISPUTE RATE",
+  "adminKycPending": "⏳ Pending KYC approval",
+  "adminKycNewCount": "{count} new",
+  "@adminKycNewCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "adminInspect": "Inspect",
+  "adminApprove": "Approve",
+
+  "adminImageUploadTitle": "Image Upload Manager",
+  "adminImageUploadNow": "Upload now",
+  "adminImageUploadHeading": "Choose images for tours & destinations",
+  "adminImageUploadDescription": "Uploaded images will provide URLs you can attach to review and guide content.",
+  "adminImageUploadSuccess": "Success! Uploaded {count} images.",
+  "@adminImageUploadSuccess": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "adminImageUploadError": "Error: {error}",
+  "@adminImageUploadError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "adminImagePickFromDevice": "Pick images from device",
+
+  "themeCustomizerTitle": "Customize theme",
+  "themeCustomizerReset": "Reset default",
+  "themeCustomizerResetDone": "Reset to default completed",
+  "themeCustomizerApplyEverywhere": "Change once - apply to User App, Admin, and Web.",
+  "themePrimaryColor": "Primary color",
+  "themeRgbAdjust": "RGB adjustment",
+  "themeModeTitle": "Light / Dark mode",
+  "themeModeLight": "Light",
+  "themeModeDark": "Dark",
+  "themeModeSystem": "System",
+  "themeTextContrast": "Text contrast",
+  "themeHighContrast": "High-contrast text",
+  "themeHighContrastHint": "Use pure black/white instead of gray for better readability",
+  "themeFontScale": "Font size",
+  "themeDensity": "UI density",
+  "themeDensityCompact": "Compact",
+  "themeDensityStandard": "Standard",
+  "themeDensityComfortable": "Comfortable",
+  "themePreviewTitle": "Preview",
+  "themePreviewMetricLabel": "Monthly GMV",
+  "themePreviewApprove": "Approve",
+  "themePreviewReject": "Reject",
+
+  "adminSeoSaved": "✅ Saved SEO for route: {route}",
+  "@adminSeoSaved": {
+    "placeholders": {
+      "route": { "type": "String" }
+    }
+  },
+  "adminSeoScore": "Score: {score}/100",
+  "@adminSeoScore": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "adminSeoPageTitle": "Page Title (meta tag)",
+  "adminSeoTitleHint": "30-60 characters ({length})",
+  "@adminSeoTitleHint": {
+    "placeholders": {
+      "length": { "type": "int" }
+    }
+  },
+  "adminSeoTitleHelper": "Shown in browser tab and search results",
+  "adminSeoMetaDescription": "Meta Description",
+  "adminSeoDescriptionHint": "120-160 characters ({length})",
+  "@adminSeoDescriptionHint": {
+    "placeholders": {
+      "length": { "type": "int" }
+    }
+  },
+  "adminSeoDescriptionHelper": "Content snippet shown below title on Google",
+  "adminSeoKeywords": "Keywords",
+  "adminSeoKeywordsHint": "Separate by commas",
+  "adminSeoKeywordsHelper": "Meta keywords (less important but still useful)",
+  "adminSeoH1": "H1 Heading (Very important)",
+  "adminSeoH1Hint": "Main page heading (only one H1)",
+  "adminSeoH1Helper": "Should differ from title tag",
+  "adminSeoH2": "H2 Headings (Sections)",
+  "adminSeoH2InputHint": "Enter H2 heading",
+  "adminSeoCanonical": "Canonical URL",
+  "adminSeoCanonicalHelper": "Avoid duplicate content",
+  "adminSeoOgImage": "OG Image URL (Social Media)",
+  "adminSeoOgImageHelper": "Image shown when sharing on social platforms",
+  "adminSeoJsonLd": "JSON-LD Structured Data",
+  "adminSeoJsonLdHelper": "Schema.org markup for Rich Snippets",
+  "adminSeoNoindexTitle": "🚫 Robots: NOINDEX",
+  "adminSeoNoindexSubtitle": "Do not index this page on Google",
+  "adminSeoPreviewTitle": "🔍 Google Search Result Preview",
+  "adminSeoCanonicalDefault": "https://travelreview.vn",
+  "adminSeoMetaDescriptionPlaceholder": "Meta description...",
+  "adminSeoSaveButton": "💾 Save SEO Config",
+
   "legalTitle": "Legal & Policies",
   "legalIntro": "The following documents apply when you use TravelReview. Please read carefully before continuing.",
   "legalPrivacy": "Privacy Policy",
@@ -57,6 +308,15 @@
       "date": { "type": "String" }
     }
   },
-  "legalAndPolicies": "Legal & Policies"
+  "legalAndPolicies": "Legal & Policies",
+
+  "aiChatTitle": "🤖 Ask AI about this tour",
+  "aiChatSubtitle": "Get instant answers to your questions",
+  "aiChatInputHint": "Ask a question about this tour...",
+  "aiChatSend": "Send",
+  "aiChatWelcome": "Hi there! I'm TravelReview's AI assistant 👋\nFeel free to ask me about the itinerary, costs, what to pack, and more.",
+  "aiChatTyping": "AI is typing...",
+  "aiChatErrorRetry": "An error occurred. Tap to retry.",
+  "aiChatQuickQuestions": "Quick questions"
 }
 

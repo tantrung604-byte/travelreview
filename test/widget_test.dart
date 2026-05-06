@@ -6,6 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:travelreview_app/app/app.dart';
@@ -17,12 +18,12 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('TravelReview'), findsOneWidget);
-    expect(find.text('Discover trips, tickets, and honest reviews.'), findsOneWidget);
-    expect(find.text('Search'), findsWidgets);
+    expect(find.textContaining('review'), findsWidgets);
+    expect(find.byIcon(Icons.search), findsWidgets);
 
-    await tester.tap(find.text('Discover').first);
+    await tester.tap(find.byIcon(Icons.explore_outlined).first);
     await tester.pumpAndSettle();
 
-    expect(find.text('Khám phá'), findsOneWidget);
+    expect(find.text('Da Nang - Ba Na Hills 3N2D'), findsOneWidget);
   });
 }

@@ -7,6 +7,7 @@ import '../core/theme/app_theme_controller.dart';
 import '../l10n/gen/app_localizations.dart';
 import 'locale/locale_controller.dart';
 import 'router/app_router.dart';
+import 'user_session_recorder.dart';
 
 class TravelReviewApp extends ConsumerWidget {
   const TravelReviewApp({super.key});
@@ -16,6 +17,9 @@ class TravelReviewApp extends ConsumerWidget {
     final locale = ref.watch(localeControllerProvider);
     final theme = ref.watch(appThemeControllerProvider);
     final router = ref.watch(appRouterProvider);
+
+    // Ghi nhận IP + device info mỗi khi user đăng nhập
+    ref.watch(userSessionRecorderProvider);
 
     return MaterialApp.router(
       onGenerateTitle: (ctx) => AppL10n.of(ctx).appTitle,
@@ -86,7 +90,7 @@ class _ZaloSupportButton extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withValues(alpha: 0.2),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),

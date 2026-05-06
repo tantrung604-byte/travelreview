@@ -1,0 +1,18 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A2342"/>
+      <stop offset="100%" stop-color="#2CA58D"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#hk)"/>
+  <rect y="560" width="1200" height="240" fill="#081C2E"/>
+  <rect x="180" y="300" width="70" height="260" fill="#E2EAF2"/>
+  <rect x="280" y="250" width="90" height="310" fill="#BDD5EA"/>
+  <rect x="410" y="330" width="65" height="230" fill="#E2EAF2"/>
+  <rect x="520" y="210" width="110" height="350" fill="#B6CCFE"/>
+  <rect x="670" y="280" width="80" height="280" fill="#D9E4F5"/>
+  <rect x="790" y="240" width="95" height="320" fill="#B6CCFE"/>
+  <text x="90" y="120" fill="#F4F9FF" font-family="Arial" font-size="58" font-weight="700">HONG KONG</text>
+  <text x="90" y="170" fill="#D9F0FF" font-family="Arial" font-size="28">Skyline • Peak Tram • Disneyland</text>
+</svg>
