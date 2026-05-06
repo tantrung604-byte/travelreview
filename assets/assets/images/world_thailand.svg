@@ -1,0 +1,17 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="th" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1D3557"/>
+      <stop offset="100%" stop-color="#457B9D"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#th)"/>
+  <rect y="560" width="1200" height="240" fill="#2A9D8F"/>
+  <circle cx="940" cy="120" r="64" fill="#FFD166"/>
+  <path d="M100 560 C220 520 350 590 500 560 C660 530 820 600 1040 550 L1200 560 L1200 620 L100 620 Z" fill="#E0FBFC" opacity="0.7"/>
+  <path d="M200 560 L300 370 L400 560 Z" fill="#F4A261"/>
+  <path d="M430 560 L540 330 L650 560 Z" fill="#E76F51"/>
+  <path d="M690 560 L790 390 L890 560 Z" fill="#F4A261"/>
+  <text x="90" y="120" fill="#F8FBFF" font-family="Arial" font-size="58" font-weight="700">THAILAND</text>
+  <text x="90" y="170" fill="#DBF4FF" font-family="Arial" font-size="28">Bangkok • Pattaya • Phuket</text>
+</svg>

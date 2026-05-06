@@ -1,0 +1,11 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#C1121F"/>
+  <path d="M0 620 C180 560 320 670 500 610 C650 560 840 650 1200 560 L1200 800 L0 800 Z" fill="#780000"/>
+  <polygon points="170,130 195,190 260,190 208,230 230,292 170,250 110,292 132,230 80,190 145,190" fill="#FFCA3A"/>
+  <circle cx="320" cy="140" r="16" fill="#FFCA3A"/>
+  <circle cx="360" cy="190" r="16" fill="#FFCA3A"/>
+  <circle cx="355" cy="255" r="16" fill="#FFCA3A"/>
+  <circle cx="305" cy="300" r="16" fill="#FFCA3A"/>
+  <text x="90" y="410" fill="#FFF1C1" font-family="Arial" font-size="58" font-weight="700">CHINA</text>
+  <text x="90" y="460" fill="#FFE29A" font-family="Arial" font-size="28">Beijing • Shanghai • Zhangjiajie</text>
+</svg>

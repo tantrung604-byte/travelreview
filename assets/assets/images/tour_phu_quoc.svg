@@ -1,0 +1,16 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00B4D8"/>
+      <stop offset="100%" stop-color="#0077B6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sea)"/>
+  <circle cx="980" cy="120" r="62" fill="#FFD166"/>
+  <rect y="520" width="1200" height="280" fill="#2A9D8F"/>
+  <path d="M0 560 C140 540 240 580 360 560 C520 530 660 580 840 550 C980 530 1090 570 1200 545 L1200 590 L0 590 Z" fill="#E0FBFC" opacity="0.7"/>
+  <path d="M150 470 L260 320 L370 470 Z" fill="#2D6A4F"/>
+  <rect x="240" y="430" width="40" height="90" fill="#5B4636"/>
+  <text x="80" y="120" fill="#FFFFFF" font-family="Arial" font-size="58" font-weight="700">PHU QUOC</text>
+  <text x="80" y="170" fill="#EAFBFF" font-family="Arial" font-size="30">Hon Thom • Island Escape</text>
+</svg>
