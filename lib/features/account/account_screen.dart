@@ -51,6 +51,11 @@ class AccountScreen extends ConsumerWidget {
         title: const Text('Tài khoản của tôi'),
         actions: [
           IconButton(
+            tooltip: 'Cài đặt',
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () => context.go('/setting'),
+          ),
+          IconButton(
             tooltip: 'Đăng xuất',
             icon: const Icon(Icons.logout),
             onPressed: () async {

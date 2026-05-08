@@ -46,6 +46,7 @@ class AdminUserModel {
   final String email;
   final String displayName;
   final String photoUrl;
+  final String phoneNumber;
   final UserStatus status;
   final DateTime? createdAt;
   final DateTime? lastLoginAt;
@@ -61,6 +62,7 @@ class AdminUserModel {
     required this.email,
     required this.displayName,
     this.photoUrl = '',
+    this.phoneNumber = '',
     this.status = UserStatus.active,
     this.createdAt,
     this.lastLoginAt,
@@ -85,6 +87,7 @@ class AdminUserModel {
       email: (d['email'] ?? '') as String,
       displayName: (d['displayName'] ?? '') as String,
       photoUrl: (d['photoUrl'] ?? '') as String,
+      phoneNumber: (d['phoneNumber'] ?? '') as String,
       status: UserStatusX.fromString(d['status'] as String?),
       createdAt: _ts('createdAt'),
       lastLoginAt: _ts('lastLoginAt'),

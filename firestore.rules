@@ -73,16 +73,18 @@ service cloud.firestore {
 
     // ---- users/{uid} ----
     // Admin đọc/ghi tất cả. User chỉ đọc/ghi doc của chính họ.
-    // Cho phép user tự cập nhật session info (IP, device, lastLoginAt).
+    // Cho phép user tự cập nhật session info (IP, device, lastLoginAt) + phoneNumber + displayName.
+    // Cho phép user xóa doc của chính họ (tương đương xóa tài khoản).
     match /users/{uid} {
       allow read: if isAdmin() || (isSignedIn() && request.auth.uid == uid);
       allow create: if isSignedIn() && request.auth.uid == uid;
-      // User update: chỉ được sửa session fields; admin được sửa tất cả (kể cả status, banReason)
+      // User update: chỉ được sửa session fields + phoneNumber + displayName; admin được sửa tất cả (kể cả status, banReason)
       allow update: if isAdmin() ||
         (isSignedIn() && request.auth.uid == uid &&
          !request.resource.data.diff(resource.data).affectedKeys()
            .hasAny(['status', 'banReason', 'bannedAt', 'bannedBy']));
-      allow delete: if isAdmin();
+      // User được xóa doc của chính họ (để xóa tài khoản)
+      allow delete: if isAdmin() || (isSignedIn() && request.auth.uid == uid);
     }
 
     // Mặc định: deny tất cả collection chưa khai báo.

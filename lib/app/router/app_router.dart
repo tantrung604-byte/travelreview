@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/account/account_screen.dart';
+import '../../features/account/setting_screen.dart';
 import '../../features/admin/admin_providers.dart';
 import '../../features/admin/admin_shell.dart';
 import '../../features/admin/seo_manager_screen.dart';
@@ -32,6 +33,7 @@ class AppRouteNames {
   static const booking = 'booking';
   static const auth = 'auth';
   static const account = 'account';
+  static const setting = 'setting';
   static const cart = 'cart';
   static const checkout = 'checkout';
   static const checkoutSuccess = 'checkoutSuccess';
@@ -44,7 +46,7 @@ class AppRouteNames {
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 /// Routes yêu cầu user đăng nhập (kể cả anonymous).
-const _authRequiredPrefixes = ['/account', '/checkout'];
+const _authRequiredPrefixes = ['/account', '/setting', '/checkout'];
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final isAdmin = ref.watch(isAdminProvider);
@@ -107,6 +109,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/account',
         name: AppRouteNames.account,
         builder: (context, state) => const AccountScreen(),
+      ),
+      GoRoute(
+        path: '/setting',
+        name: AppRouteNames.setting,
+        builder: (context, state) => const SettingScreen(),
       ),
       GoRoute(
         path: '/cart',
