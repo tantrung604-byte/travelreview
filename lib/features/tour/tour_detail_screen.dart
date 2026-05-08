@@ -12,6 +12,7 @@ import '../../app/router/app_router.dart';
 import '../../core/ai/tour_ai_service.dart';
 import '../../l10n/gen/app_localizations.dart';
 import 'tour_provider.dart';
+import 'widgets/improved_detail_components.dart';
 
 class TourDetailScreen extends ConsumerStatefulWidget {
   const TourDetailScreen({super.key, required this.tourId});
