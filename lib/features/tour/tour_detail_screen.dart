@@ -376,6 +376,21 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
             onSubmit: _submitReview,
           ),
           const SizedBox(height: 24),
+
+          // ✅ Rating Overview (Klook-style) - NEW ADDITION Phase 2
+          RatingOverview(
+            avgRating: _averageRating,
+            totalReviews: _reviews.length,
+            distribution: {
+              5: _reviews.where((r) => r.rating == 5).length,
+              4: _reviews.where((r) => r.rating == 4).length,
+              3: _reviews.where((r) => r.rating == 3).length,
+              2: _reviews.where((r) => r.rating == 2).length,
+              1: _reviews.where((r) => r.rating == 1).length,
+            },
+          ),
+          const SizedBox(height: 24),
+
           Text(
             l.tourCustomerReviews,
             style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
@@ -408,7 +423,22 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
                   );
                 }
                 return Column(
-                  children: [for (final r in all) _ReviewCard(review: r)],
+                  // ✅ Using ReviewCardEnhanced (Klook-style) - NEW Phase 2
+                  children: [for (final r in all)
+                    ReviewCardEnhanced(
+                      userName: r.name,
+                      userAvatar: 'https://via.placeholder.com/40?text=${r.name.characters.first}',
+                      rating: r.rating,
+                      title: 'Great experience',
+                      content: r.content,
+                      daysAgo: _parseDaysAgo(r.date),
+                      photos: const [], // No photos in local reviews
+                      isVerified: false, // Can add verified logic later
+                      likesCount: 0,
+                      onLike: () {}, // TODO: Wire up like functionality
+                      onReply: () {}, // TODO: Wire up reply functionality
+                    ),
+                  ],
                 );
               },
             );
@@ -425,6 +455,18 @@ class _TourDetailScreenState extends ConsumerState<TourDetailScreen> {
     if (diff.inDays < 1) return '${diff.inHours} giá» trÆ°á»›c';
     if (diff.inDays < 30) return '${diff.inDays} ngÃ y trÆ°á»›c';
     return '${d.day}/${d.month}/${d.year}';
+  }
+  
+  /// Parse days ago from relative date string (e.g., "2 ngÃ y trÆ°á»›c" -> 2)
+  static int _parseDaysAgo(String dateStr) {
+    if (dateStr.contains('Vá»«a xong') || dateStr.contains('xong')) return 0;
+    if (dateStr.contains('phÃºt') || dateStr.contains('giá»')) return 0;
+    
+    final match = RegExp(r'(\d+)\s*ngÃ y').firstMatch(dateStr);
+    if (match != null) {
+      return int.tryParse(match.group(1) ?? '0') ?? 0;
+    }
+    return 1; // Default to 1 day ago
   }
 }
 
@@ -1652,7 +1694,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
       height: 16,
       child: AnimatedBuilder(
         animation: _controller,
-        builder: (_, __) {
+        builder: (_, _) {
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: List.generate(3, (i) {
