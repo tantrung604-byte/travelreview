@@ -196,6 +196,163 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
     } catch (_) {}
   }
 
+  /// Hiển thị dialog đổi mật khẩu
+  Future<void> _showChangePasswordDialog() async {
+    final oldPassCtrl = TextEditingController();
+    final newPassCtrl = TextEditingController();
+    final newPassConfirmCtrl = TextEditingController();
+    bool isSaving = false;
+    String? error;
+    final parentContext = context;
+
+    if (!mounted) return;
+
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setState) {
+          Future<void> changePassword() async {
+            final oldPass = oldPassCtrl.text;
+            final newPass = newPassCtrl.text;
+            final newPassConfirm = newPassConfirmCtrl.text;
+
+            if (oldPass.isEmpty || newPass.isEmpty || newPassConfirm.isEmpty) {
+              setState(() => error = 'Vui lòng điền đầy đủ mật khẩu');
+              return;
+            }
+            if (newPass != newPassConfirm) {
+              setState(() => error = 'Xác nhận mật khẩu không khớp');
+              return;
+            }
+            if (newPass.length < 6) {
+              setState(() => error = 'Mật khẩu tối thiểu 6 ký tự');
+              return;
+            }
+            if (oldPass == newPass) {
+              setState(() => error = 'Mật khẩu mới phải khác mật khẩu cũ');
+              return;
+            }
+
+            setState(() {
+              isSaving = true;
+              error = null;
+            });
+
+            try {
+              await ref.read(authServiceProvider).changePassword(oldPass, newPass);
+
+              if (ctx.mounted) {
+                Navigator.pop(ctx);
+                if (parentContext.mounted) {
+                  ScaffoldMessenger.of(parentContext).showSnackBar(
+                    const SnackBar(
+                      content: Text('✅ Mật khẩu đã được thay đổi'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                }
+              }
+            } on FirebaseAuthException catch (e) {
+              String msg = 'Lỗi: ${e.code}';
+              if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
+                msg = 'Mật khẩu cũ không đúng';
+              } else if (e.code == 'weak-password') {
+                msg = 'Mật khẩu mới quá yếu';
+              }
+              setState(() {
+                error = msg;
+                isSaving = false;
+              });
+            } catch (e) {
+              setState(() {
+                error = e.toString();
+                isSaving = false;
+              });
+            }
+          }
+
+          return AlertDialog(
+            title: const Text('🔐 Đổi mật khẩu'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: oldPassCtrl,
+                    obscureText: true,
+                    enabled: !isSaving,
+                    decoration: InputDecoration(
+                      labelText: 'Mật khẩu cũ',
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: newPassCtrl,
+                    obscureText: true,
+                    enabled: !isSaving,
+                    decoration: InputDecoration(
+                      labelText: 'Mật khẩu mới',
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: newPassConfirmCtrl,
+                    obscureText: true,
+                    enabled: !isSaving,
+                    decoration: InputDecoration(
+                      labelText: 'Xác nhận mật khẩu mới',
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+                    ),
+                  ),
+                  if (error != null) ...[
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.red.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: Colors.red.withValues(alpha: 0.5)),
+                      ),
+                      child: Text(
+                        error!,
+                        style: const TextStyle(fontSize: 12, color: Colors.red),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: isSaving ? null : () => Navigator.pop(ctx),
+                child: const Text('Hủy'),
+              ),
+              FilledButton(
+                onPressed: isSaving ? null : changePassword,
+                child: isSaving
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Đổi mật khẩu'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    oldPassCtrl.dispose();
+    newPassCtrl.dispose();
+    newPassConfirmCtrl.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -347,6 +504,16 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
             title: const Text('Chính sách bảo mật'),
             trailing: const Icon(Icons.open_in_new, size: 18),
             onTap: () => _openLegalLink('privacy'),
+          ),
+          const SizedBox(height: 32),
+
+          // ─── Change Password ──────────────────────────────────────────────
+          _buildSectionTitle('🔐 Đổi mật khẩu'),
+          const SizedBox(height: 12),
+          OutlinedButton.icon(
+            onPressed: _isSaving ? null : _showChangePasswordDialog,
+            icon: const Icon(Icons.vpn_key),
+            label: const Text('Đổi mật khẩu'),
           ),
           const SizedBox(height: 32),
 

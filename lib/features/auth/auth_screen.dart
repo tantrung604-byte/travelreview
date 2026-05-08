@@ -124,27 +124,28 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     }
   }
 
-  Future<void> _forgotPassword() async {
-    final email = _email.text.trim();
-    if (email.isEmpty || !email.contains('@')) {
-      setState(() => _error = 'Nhập email hợp lệ rồi bấm "Quên mật khẩu" lại.');
-      return;
-    }
-    setState(() {
-      _busy = true;
-      _error = null;
-      _info = null;
-    });
-    try {
-      await ref.read(authServiceProvider).sendPasswordReset(email);
-      if (!mounted) return;
-      setState(() => _info = 'Đã gửi email đặt lại mật khẩu tới $email.');
-    } on FirebaseAuthException catch (e) {
-      setState(() => _error = _friendlyError(e));
-    } finally {
-      if (mounted) setState(() => _busy = false);
-    }
-  }
+   Future<void> _forgotPassword() async {
+     final email = _email.text.trim();
+     if (email.isEmpty || !email.contains('@')) {
+       setState(() => _error = 'Nhập email hợp lệ rồi bấm "Quên mật khẩu" lại.');
+       return;
+     }
+
+     if (!mounted) return;
+     await showDialog<void>(
+       context: context,
+       builder: (ctx) => _ForgotPasswordDialog(
+         email: email,
+         onSuccess: () {
+           ctx.pop();
+           if (mounted) {
+             setState(() => _info = 'Mật khẩu đã được đặt lại. Vui lòng đăng nhập lại.');
+             _password.clear();
+           }
+         },
+       ),
+     );
+   }
 
   String _friendlyError(FirebaseAuthException e) {
     switch (e.code) {
@@ -368,6 +369,271 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Dialog để đặt lại mật khẩu qua email verification
+class _ForgotPasswordDialog extends ConsumerStatefulWidget {
+  const _ForgotPasswordDialog({
+    required this.email,
+    required this.onSuccess,
+  });
+  final String email;
+  final VoidCallback onSuccess;
+
+  @override
+  ConsumerState<_ForgotPasswordDialog> createState() => _ForgotPasswordDialogState();
+}
+
+class _ForgotPasswordDialogState extends ConsumerState<_ForgotPasswordDialog> {
+  final _resetCodeCtrl = TextEditingController();
+  final _newPassCtrl = TextEditingController();
+  final _newPassConfirmCtrl = TextEditingController();
+  bool _step1Done = false; // false = gửi email, true = nhập code + password
+  bool _busy = false;
+  String? _error;
+  String? _info;
+
+  @override
+  void dispose() {
+    _resetCodeCtrl.dispose();
+    _newPassCtrl.dispose();
+    _newPassConfirmCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _sendResetEmail() async {
+    setState(() {
+      _busy = true;
+      _error = null;
+      _info = null;
+    });
+    try {
+      await ref.read(authServiceProvider).sendPasswordReset(widget.email);
+      if (mounted) {
+        setState(() {
+          _step1Done = true;
+          _info = 'Đã gửi email đặt lại mật khẩu tới ${widget.email}.\n\n'
+              'Vui lòng kiểm tra inbox, copy mã từ link reset (hoặc từ email nếu cấu hình custom) rồi nhập dưới đây.';
+        });
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() => _error = _friendlyError(e));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _resetPassword() async {
+    final code = _resetCodeCtrl.text.trim();
+    final newPass = _newPassCtrl.text;
+    final newPassConfirm = _newPassConfirmCtrl.text;
+
+    if (code.isEmpty) {
+      setState(() => _error = 'Vui lòng nhập mã reset');
+      return;
+    }
+    if (newPass.isEmpty || newPassConfirm.isEmpty) {
+      setState(() => _error = 'Vui lòng nhập mật khẩu mới 2 lần');
+      return;
+    }
+    if (newPass != newPassConfirm) {
+      setState(() => _error = 'Xác nhận mật khẩu không khớp');
+      return;
+    }
+    if (newPass.length < 6) {
+      setState(() => _error = 'Mật khẩu tối thiểu 6 ký tự');
+      return;
+    }
+
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+
+    try {
+      // Verify code hợp lệ
+      final email = await ref.read(authServiceProvider).verifyPasswordResetCode(code);
+      if (email == null || email != widget.email) {
+        throw Exception('Mã reset không hợp lệ hoặc không khớp email');
+      }
+
+      // Confirm reset
+      await ref.read(authServiceProvider).confirmPasswordReset(code, newPass);
+
+      if (mounted) {
+        widget.onSuccess();
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() => _error = _friendlyError(e));
+    } catch (e) {
+      setState(() => _error = e.toString());
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  String _friendlyError(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'invalid-oob-code':
+      case 'expired-oob-code':
+        return 'Mã reset không hợp lệ hoặc đã hết hạn. Vui lòng gửi lại.';
+      case 'user-disabled':
+        return 'Tài khoản đã bị vô hiệu hoá.';
+      case 'user-not-found':
+        return 'Không tìm thấy tài khoản với email này.';
+      default:
+        return e.message ?? e.code;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    if (!_step1Done) {
+      // Step 1: Gửi reset email
+      return AlertDialog(
+        title: const Text('🔐 Quên mật khẩu'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Gửi email đặt lại mật khẩu tới:', style: theme.textTheme.bodyMedium),
+            const SizedBox(height: 8),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                widget.email,
+                style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+            if (_info != null) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.green.shade50,
+                  border: Border.all(color: Colors.green.shade300),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  _info!,
+                  style: const TextStyle(fontSize: 12, color: Colors.black87),
+                ),
+              ),
+            ],
+            if (_error != null) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  _error!,
+                  style: TextStyle(fontSize: 12, color: theme.colorScheme.onErrorContainer),
+                ),
+              ),
+            ],
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: _busy ? null : () => Navigator.pop(context),
+            child: const Text('Hủy'),
+          ),
+          FilledButton(
+            onPressed: _busy ? null : _sendResetEmail,
+            child: _busy
+                ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Text('Gửi email'),
+          ),
+        ],
+      );
+    }
+
+    // Step 2: Nhập mã reset + mật khẩu mới
+    return AlertDialog(
+      title: const Text('🔐 Đặt mật khẩu mới'),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _resetCodeCtrl,
+              decoration: InputDecoration(
+                labelText: 'Mã reset từ email',
+                hintText: 'Copy từ link hoặc email',
+                prefixIcon: const Icon(Icons.vpn_key),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+              ),
+              enabled: !_busy,
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _newPassCtrl,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Mật khẩu mới',
+                prefixIcon: const Icon(Icons.lock_outline),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+              ),
+              enabled: !_busy,
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _newPassConfirmCtrl,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Xác nhận mật khẩu mới',
+                prefixIcon: const Icon(Icons.lock_outline),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+              ),
+              enabled: !_busy,
+            ),
+            if (_error != null) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  _error!,
+                  style: TextStyle(fontSize: 12, color: theme.colorScheme.onErrorContainer),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: _busy ? null : () => setState(() => _step1Done = false),
+          child: const Text('← Gửi lại email'),
+        ),
+        FilledButton(
+          onPressed: _busy ? null : _resetPassword,
+          child: _busy
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Text('Đặt mật khẩu'),
+        ),
+      ],
     );
   }
 }

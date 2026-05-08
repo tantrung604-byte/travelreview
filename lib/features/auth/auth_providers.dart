@@ -142,8 +142,39 @@ class AuthService {
     await _auth.signOut();
   }
 
-  Future<void> sendPasswordReset(String email) =>
-      _auth.sendPasswordResetEmail(email: email.trim());
+   /// Gửi email để đặt lại mật khẩu
+   Future<void> sendPasswordReset(String email) =>
+       _auth.sendPasswordResetEmail(email: email.trim());
+
+   /// Verify password reset code (extract email từ code)
+   Future<String?> verifyPasswordResetCode(String code) async {
+     try {
+       return await _auth.verifyPasswordResetCode(code);
+     } catch (_) {
+       return null;
+     }
+   }
+
+   /// Confirm password reset (update mật khẩu với code)
+   Future<void> confirmPasswordReset(String code, String newPassword) =>
+       _auth.confirmPasswordReset(code: code, newPassword: newPassword);
+
+   /// Đổi mật khẩu khi user đã đăng nhập
+   /// Cần re-authenticate với mật khẩu cũ trước
+   Future<void> changePassword(String oldPassword, String newPassword) async {
+     final user = _auth.currentUser;
+     if (user?.email == null) throw Exception('Chưa đăng nhập');
+
+     // Re-authenticate với email + mật khẩu cũ
+     final credential = EmailAuthProvider.credential(
+       email: user!.email!,
+       password: oldPassword,
+     );
+     await user.reauthenticateWithCredential(credential);
+
+     // Update mật khẩu mới
+     await user.updatePassword(newPassword);
+   }
 }
 
 final authServiceProvider = Provider<AuthService>((ref) {
